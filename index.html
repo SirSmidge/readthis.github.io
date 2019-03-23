@@ -4,6 +4,9 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>The Book Club</title>
+        <script src="https://unpkg.com/@fullcalendar/core@4.0.1/main.js"></script>
+        <script src="fullcalendar/daygrid/main.js"></script>
+
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
         <link rel="stylesheet" href="assets/fonts/font-awesome.min.css" />
         <link
@@ -11,13 +14,18 @@
             href="https://fonts.googleapis.com/css?family=Bitter:400,700"
         />
         <link rel="stylesheet" href="assets/css/Navigation-with-Search.css" />
+        <link
+            href="https://unpkg.com/@fullcalendar/core@4.0.1/main.css"
+            rel="stylesheet"
+        />
+        <link href="fullcalendar/daygrid/main.css" rel="stylesheet" />
         <link rel="stylesheet" href="assets/css/styles.css" />
     </head>
 
     <body>
         <div
             data-bs-parallax-bg="true"
-            style="height:500px;background-image:url(https://unsplash.it/1800/900?image=1051);background-position:center;background-size:cover;"
+            style="height:1500;background-image:url(https://unsplash.it/1800/900?image=1051);background-position:center;background-size:cover;"
         >
             <nav
                 class="navbar navbar-light navbar-expand-md navigation-clean-search"
@@ -51,7 +59,19 @@
                 </div>
             </nav>
             <div class="container">
-                <div id="covers"></div>
+                <div id="calendar"></div>
+                <div id="search" class="m-4">
+                    <input type="text" id="searchBar" class="form-control" />
+                    <input
+                        type="submit"
+                        id="searchGo"
+                        class="form-control bg-danger text-white"
+                    />
+                    <div id="results"></div>
+                </div>
+                <div id="covers">
+                    <h1>New York Times Best Sellers</h1>
+                </div>
             </div>
         </div>
         <script src="assets/js/jquery.min.js"></script>
