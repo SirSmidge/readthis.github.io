@@ -8,15 +8,177 @@ var config = {
     messagingSenderId: '422544061449'
 };
 firebase.initializeApp(config);
-let database = firebase.database();
+let database = firebase.database(),
+    activeBC = '';
 
+// * Grab Book club name
+$('#nameGo').on('click', function () {
+    let bcName = $('#nameInput')
+        .val()
+        .trim();
+    $('#nameInput').val('');
+    $('.navbar-brand').text(bcName);
+    let newBCKey = database.ref('/bookclubs').push({
+        name: bcName
+    }).key;
+    let currentBCRef = database.ref('/bookclubs/' + newBCKey);
+    console.log(currentBCRef.toString());
+});
+
+database.ref('/bookclubs').on('child_added', function (snap) {
+    let data = snap.val();
+    let key = snap.key;
+    let name = data.name;
+    let newAnchor = $('<a>')
+        .addClass('dropdown-item')
+        .text(name)
+        .attr({
+            'data-key': key,
+            src: '#'
+        });
+    $('.dropdown-menu').append(newAnchor);
+});
+
+$(document).on('click', '.dropdown-item', function () {
+    console.log('dropdown item clicked');
+    let name = $(this).text();
+    let key = $(this).attr('data-key');
+    $('.navbar-brand').text(`Club: ${name} | Key: ${key}`);
+    $('#bcName').toggle(400);
+    $('.bc-area').toggle(400);
+    activeBC = database.ref(`/bookclubs/${key}`)
+});
+
+// * Full Calendar
+
+$('#showCalendar').on('click', function () {
+    $(this).remove();
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: ['interaction', 'dayGrid', 'timeGrid'],
+        defaultView: 'dayGridMonth',
+        header: {
+            left: 'title',
+            center: 'addEventButton',
+            right: 'today dayGridMonth,timeGridWeek'
+        },
+        customButtons: {
+            addEventButton: {
+                text: 'add event...',
+                click: function () {
+                    var dateStr = prompt('Enter a date in YYYY-MM-DD format');
+                    var date = new Date(dateStr + 'T00:00:00'); // will be in local time
+
+                    if (!isNaN(date.valueOf())) {
+                        // valid?
+                        calendar.addEvent({
+                            title: 'dynamic event',
+                            start: date,
+                            allDay: true
+                        });
+                        alert('Great. Now, update your database...');
+                    } else {
+                        alert('Invalid date.');
+                    }
+                }
+            }
+        }
+    });
+
+    calendar.render();
+});
+
+// * OPEN LIBRARY SEARCH
+
+let searchTitle = '';
+let olSearch = `http://openlibrary.org/search.json?q=${searchTitle}`;
+
+let cover = '',
+    title = '',
+    author = '',
+    first_sentence = '';
+
+/* 
+$.ajax({
+    url: olSearch,
+    method: 'GET'
+}).then(function(data) {
+    olData = JSON.parse(data);
+    isbn = book.isbn[0];
+    olCover = `http://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
+
+    console.log(`Open Library Data`);
+    console.log(olData);
+    console.log('~~~~~~~~~');
+    console.log('Results array');
+    console.log(olData.docs);
+    console.log('~~~~~~~~~');
+    console.log('0th-index author name // array, get 1st.');
+    console.log(book.author_name[0]);
+    console.log('~~~~~~~~~');
+    console.log('0th-index book title');
+    console.log(book.title);
+    console.log('~~~~~~~~~');
+    console.log('0th-index isbn // array, get 1st');
+    console.log(book.isbn[0]);
+    console.log('~~~~~~~~~');
+    console.log('0th-index first sentence // array, get 1st');
+    console.log(book.first_sentence[0]);
+    console.log('~~~~~~~~~');
+    console.log(olCover);
+});
+*/
+
+$('#searchGo').on('click', function (event) {
+    event.preventDefault();
+    searchTitle = $('#searchBar')
+        .val()
+        .trim();
+    $('#searchBar').val('');
+    olSearch = `http://openlibrary.org/search.json?q=${searchTitle}`;
+
+    $.ajax({
+        url: olSearch,
+        method: 'GET'
+    }).then(function (data) {
+        olData = JSON.parse(data);
+        book = olData.docs[0];
+
+        // create book object and push to firebase
+        (!(typeof book.isbn == 'undefined')) ? cover = `http://covers.openlibrary.org/b/isbn/${book.isbn[0]}-L.jpg`: cover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`;
+        (!(typeof book.title == 'undefined')) ? title = book.title: title = 'Not Found';
+        (!(typeof book.author_name == 'undefined')) ? author = book.author_name[0]: author = 'Not Found';
+        (!(typeof book.first_sentence == 'undefined')) ? first_sentence = book.first_sentence: first_sentence = 'Not Found';
+        (!(typeof book.title == 'undefined')) ? title = book.title: title = 'Not Found';
+
+        let bookObj = {
+            title: title,
+            author: author,
+            cover: cover,
+            first_sentence: first_sentence
+        };
+        activeBC.update({
+            book: bookObj
+        });
+
+        // show on DOM
+        let bookDiv = $('<div>');
+        let coverimg = $('<img>').attr('src', cover);
+        let titleText = $('<h1>').text(title);
+        bookDiv.append(titleText, coverimg);
+        $('#results').html(bookDiv);
+    });
+});
+
+// * NYT BEST SELLERS
 let nytKey = '2cLMsa04TtSGMPHaBnBBRjtXNhjTHcFp';
 let nytQuery = `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=${nytKey}`;
 
 $.ajax({
     url: nytQuery,
     method: 'GET'
-}).then(function(data) {
+}).then(function (data) {
     /*
     console.log('NYT Bestsellers Data');
     console.log(data);
@@ -50,145 +212,4 @@ $.ajax({
         bookDiv.append(title, cover);
         $('#covers').append(bookDiv);
     }
-});
-
-// OPEN LIBRARY TEST
-
-let searchTitle = ''; // get ;
-let olSearch = `http://openlibrary.org/search.json?q=${searchTitle}`;
-
-let isbn, olCover;
-
-/* 
-$.ajax({
-    url: olSearch,
-    method: 'GET'
-}).then(function(data) {
-    olData = JSON.parse(data);
-    isbn = olData.docs[0].isbn[0];
-    olCover = `http://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
-
-    console.log(`Open Library Data`);
-    console.log(olData);
-    console.log('~~~~~~~~~');
-    console.log('Results array');
-    console.log(olData.docs);
-    console.log('~~~~~~~~~');
-    console.log('0th-index author name // array, get 1st.');
-    console.log(olData.docs[0].author_name[0]);
-    console.log('~~~~~~~~~');
-    console.log('0th-index book title');
-    console.log(olData.docs[0].title);
-    console.log('~~~~~~~~~');
-    console.log('0th-index isbn // array, get 1st');
-    console.log(olData.docs[0].isbn[0]);
-    console.log('~~~~~~~~~');
-    console.log('0th-index first sentence // array, get 1st');
-    console.log(olData.docs[0].first_sentence[0]);
-    console.log('~~~~~~~~~');
-    console.log(olCover);
-});
-*/
-
-$('#searchGo').on('click', function(event) {
-    event.preventDefault();
-    searchTitle = $('#searchBar')
-        .val()
-        .trim();
-    $('#searchBar').val('');
-    olSearch = `http://openlibrary.org/search.json?q=${searchTitle}`;
-
-    $.ajax({
-        url: olSearch,
-        method: 'GET'
-    }).then(function(data) {
-        olData = JSON.parse(data);
-        console.log(`This is the data for ${searchTitle}`);
-        console.log(olData);
-        if (!(typeof olData.docs[0].isbn == 'undefined')) {
-            isbn = olData.docs[0].isbn[0];
-            olCover = `http://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
-        } else {
-            olCover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`;
-        }
-        let bookDiv = $('<div>');
-        let cover = $('<img>').attr('src', olCover);
-        let title = $('<h1>').text(olData.docs[0].title);
-        bookDiv.append(title, cover);
-        $('#results').prepend(bookDiv);
-    });
-});
-
-// Grab Book club name
-$('#nameGo').on('click', function() {
-    let bcName = $('#nameInput')
-        .val()
-        .trim();
-    $('#nameInput').val('');
-    $('.navbar-brand').text(bcName);
-    let newBCKey = database.ref('/bookclubs').push({
-        name: bcName
-    }).key;
-    let currentBCRef = database.ref('/bookclubs/' + newBCKey);
-    console.log(currentBCRef.toString());
-});
-
-database.ref('/bookclubs').on('child_added', function(snap) {
-    let data = snap.val();
-    let key = snap.key;
-    let name = data.name;
-    let newAnchor = $('<a>')
-        .addClass('dropdown-item')
-        .text(name)
-        .attr({ 'data-key': key, src: '#' });
-    $('.dropdown-menu').append(newAnchor);
-});
-
-$(document).on('click', '.dropdown-item', function() {
-    console.log('dropdown item clicked');
-    let name = $(this).text();
-    let key = $(this).attr('data-key');
-    $('.navbar-brand').text(`Club: ${name} | Key: ${key}`);
-    $('#bcName').toggle(400);
-    $('.bc-area').toggle(400);
-});
-
-// Full Calendar
-
-$('#showCalendar').on('click', function() {
-    $(this).remove();
-    var calendarEl = document.getElementById('calendar');
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: ['interaction', 'dayGrid', 'timeGrid'],
-        defaultView: 'dayGridMonth',
-        header: {
-            left: 'title',
-            center: 'addEventButton',
-            right: 'today dayGridMonth,timeGridWeek'
-        },
-        customButtons: {
-            addEventButton: {
-                text: 'add event...',
-                click: function() {
-                    var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-                    var date = new Date(dateStr + 'T00:00:00'); // will be in local time
-
-                    if (!isNaN(date.valueOf())) {
-                        // valid?
-                        calendar.addEvent({
-                            title: 'dynamic event',
-                            start: date,
-                            allDay: true
-                        });
-                        alert('Great. Now, update your database...');
-                    } else {
-                        alert('Invalid date.');
-                    }
-                }
-            }
-        }
-    });
-
-    calendar.render();
 });
