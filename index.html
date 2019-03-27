@@ -1,39 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
     <head>
-        <meta charset="utf-8">
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>The Book Club</title>
-        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
-        <link rel="stylesheet" href="assets/css/Navigation-with-Search.css">
-        <link rel="stylesheet" href="assets/css/styles.css">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>BookClub</title>
+        <!-- reset.css -->
+        <link rel="stylesheet" href="assets/reset.css">
+        <!--If you would like to download boostrap https://getbootstrap.com-->
+        <!--Bootstrap css-->
+        <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css'
+            integrity='sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS' crossorigin='anonymous'>
+        <!--Bootstrap JS, Popper.js and JQuery-->
+        <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'
+            integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo' crossorigin='anonymous'>
+        </script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js'
+            integrity='sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut' crossorigin='anonymous'>
+        </script>
+        <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js'
+            integrity='sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k' crossorigin='anonymous'>
+        </script>
+        <!-- local css -->
+        <link rel="stylesheet" href="assets/style.css">
     </head>
 
     <body>
-        <div data-bs-parallax-bg="true"style="height:1500px;background-image:url(https://unsplash.it/1800/900?image=1051);background-position:center;background-size:cover;">
-            <nav class="navbar navbar-light navbar-expand-md navigation-clean-search">
-                <div class="container"><a class="navbar-brand" href="#">The Book Club</a><button class="navbar-toggler"
-                        data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle
-                            navigation</span><span class="navbar-toggler-icon"></span></button>
-                    <div class="collapse navbar-collapse" id="navcol-1">
-                        <ul class="nav navbar-nav"></ul>
-                        <form class="form-inline mr-auto" target="_self">
-                            <div class="form-group"><label for="search-field"><i class="fa fa-search"></i></label></div>
-                        </form><a class="btn btn-light action-button" role="button" href="#">Search</a>
+
+        <div class='header'>
+            <nav class="navbar navbar-default navbar-fixed-top" id='top'>
+                <div class="container-fluid">
+                    <div class='navbar-header'>
+                        <a class='navbar-brand' href='index.html'>Litterary Assassins</a>
                     </div>
+                    <ul class='nav navbar-nav'>
+                        <div class="md-form active-purple active-purple-2 mb-3">
+                            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+                        </div>
+                        <li><a href='portfolio.html'>Club Callender</a><span>|</span></li>
+                        <li><a href='contact.html'>Sign Up</a></li>
+                    </ul>
                 </div>
             </nav>
         </div>
-
-        <div class='bookInformation'>
-            
-        </div>
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/js/bs-animation.js"></script>
+        <!-- End nav -->
+        <main>
+        </main>
     </body>
+    <footer>
+
+    </footer>
+    <script src='assets/logic.js'></script>
 
 </html>
