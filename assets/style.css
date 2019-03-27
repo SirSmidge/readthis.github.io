@@ -5,25 +5,42 @@ html {
     margin: auto;
 }
 
-body{
+body {
     padding: 0;
     margin: auto;
     max-width: 960px;
     min-height: 100%;
 }
 
-.navbar{
+.navbar {
     max-width: 100%;
     padding: 5px;
     margin: auto;
     height: 60px;
 }
 
-.navbar-brand{
+.navbar-brand {
     padding: 5px;
 }
 
-a, a:hover {
+a,
+a:hover {
     text-decoration: none;
     color: black;
+}
+
+/* End Nav */
+
+.parallax {
+    /* The image used */
+    background-image: url("img_parallax.jpg");
+
+    /* Set a specific height */
+    min-height: 500px;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
