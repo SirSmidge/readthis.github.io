@@ -1,35 +1,29 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>The Book Club</title>
-        <script src="https://unpkg.com/@fullcalendar/core@4.0.1/main.js"></script>
-        <script src="fullcalendar/daygrid/main.js"></script>
 
-        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="assets/fonts/font-awesome.min.css" />
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Bitter:400,700"
-        />
-        <link rel="stylesheet" href="assets/css/Navigation-with-Search.css" />
-        <link
-            href="https://unpkg.com/@fullcalendar/core@4.0.1/main.css"
-            rel="stylesheet"
-        />
-        <link href="fullcalendar/daygrid/main.css" rel="stylesheet" />
-        <link rel="stylesheet" href="assets/css/styles.css" />
-    </head>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Book Club</title>
+    <script src="https://fullcalendar.io/releases/core/4.0.1/main.min.js"></script>
+    <script src="https://fullcalendar.io/releases/interaction/4.0.1/main.min.js"></script>
+    <script src="https://fullcalendar.io/releases/daygrid/4.0.1/main.min.js"></script>
+    <script src="https://fullcalendar.io/releases/timegrid/4.0.1/main.min.js"></script>
 
-    <body>
-        <div
-            data-bs-parallax-bg="true"
-            style="height:1500;background-image:url(https://unsplash.it/1800/900?image=1051);background-position:center;background-size:cover;"
-        >
-            <nav
-                class="navbar navbar-light navbar-expand-md navigation-clean-search"
-            >
+<<<<<<< HEAD
+   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700" />
+    <link rel="stylesheet" href="assets/css/Navigation-with-Search.css" />
+    <link href="https://fullcalendar.io/releases/core/4.0.1/main.min.css" rel="stylesheet" />
+    <link href="https://fullcalendar.io/releases/daygrid/4.0.1/main.min.css" rel="stylesheet" />
+    <link href="https://fullcalendar.io/releases/timegrid/4.0.1/main.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+
+<div data-bs-parallax-bg="true"
+    style="height:1500;background-image:url(https://unsplash.it/1800/900?image=1051);background-position:center;background-size:cover;">
+    <nav class="navbar navbar-light navbar-expand-md navigation-clean-search">
                 <div class="container">
                     <a class="navbar-brand" href="#">The Book Club</a
                     ><button
@@ -63,25 +57,66 @@
                     </div>
                 </div>
             </nav>
+=======
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700" />
+    <link rel="stylesheet" href="assets/css/Navigation-with-Search.css" />
+    <link href="https://fullcalendar.io/releases/core/4.0.1/main.min.css" rel="stylesheet" />
+    <link href="https://fullcalendar.io/releases/daygrid/4.0.1/main.min.css" rel="stylesheet" />
+    <link href="https://fullcalendar.io/releases/timegrid/4.0.1/main.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+
+<body>
+    <div data-bs-parallax-bg="true"
+        style="height:1500;background-image:url(https://unsplash.it/1800/900?image=1051);background-position:center;background-size:cover;">
+        <nav class="navbar navbar-light navbar-expand-md navigation-clean-search">
+>>>>>>> 8229a8db4b755c6f2d2a1fa7a5c7d040aa0ff819
             <div class="container">
-                <div id="calendar"></div>
-                <div id="search" class="m-4">
-                    <input type="text" id="searchBar" class="form-control" />
-                    <input
-                        type="submit"
-                        id="searchGo"
-                        class="form-control bg-danger text-white"
-                    />
-                    <div id="results"></div>
-                </div>
-                <div id="covers">
-                    <h1>New York Times Best Sellers</h1>
+                <a class="navbar-brand" href="#">The Book Club</a><button class="navbar-toggler" data-toggle="collapse"
+                    data-target="#navcol-1">
+                    <span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="nav navbar-nav"></ul>
+                    <form class="form-inline mr-auto" target="_self">
+                        <div class="form-group">
+                            <label for="search-field"><i class="fa fa-search"></i></label>
+                        </div>
+                    </form>
+                    <a class="btn btn-light action-button" role="button" href="#">Search</a>
                 </div>
             </div>
+        </nav>
+        <div class="container">
+            <div id="bcName" class="m-5">
+                <h3>Enter Your Book Club's Name Below:</h3>
+                <input type="text" id="nameInput" class="form-control mb-2">
+                <input type="submit" id="nameGo" class="form-control bg-warning">
+                <h3>Or Select from One of the Existing Book Clubs on Our List</h3>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" id="bcMenu">Find Your Book
+                        Club</button>
+                    <div class="dropdown-menu"></div>
+                </div>
+            </div>
+            <div id="calendar"></div>
+            <div id="search" class="m-4">
+                <input type="text" id="searchBar" class="form-control" />
+                <input type="submit" id="searchGo" class="form-control bg-danger text-white" />
+                <div id="results"></div>
+            </div>
+            <div id="covers">
+                <h1>New York Times Best Sellers</h1>
+            </div>
         </div>
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/js/bs-animation.js"></script>
-        <script src="assets/js/script.js"></script>
-    </body>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-animation.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+
 </html>
