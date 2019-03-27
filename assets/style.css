@@ -33,10 +33,10 @@ a:hover {
 
 .parallax {
     /* The image used */
-    background-image: url("img_parallax.jpg");
-
+    background-image: url("images/csabi-elter-70476-unsplash.jpg");
+    width: 100%;
     /* Set a specific height */
-    min-height: 500px;
+    height: 350px;
 
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
