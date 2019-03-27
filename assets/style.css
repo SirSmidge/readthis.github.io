@@ -18,3 +18,12 @@ body{
     margin: auto;
     height: 60px;
 }
+
+.navbar-brand{
+    padding: 5px;
+}
+
+a, a:hover {
+    text-decoration: none;
+    color: black;
+}
