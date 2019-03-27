@@ -1,15 +1,14 @@
 // ! Initialize Firebase
 var config = {
-    apiKey: "AIzaSyCqb0IslXJ9cwRQJpdvlL49Nb5LRsOO6TM",
-    authDomain: "bookclubapp-1da56.firebaseapp.com",
-    databaseURL: "https://bookclubapp-1da56.firebaseio.com",
-    projectId: "bookclubapp-1da56",
-    storageBucket: "bookclubapp-1da56.appspot.com",
-    messagingSenderId: "422544061449"
+    apiKey: 'AIzaSyCqb0IslXJ9cwRQJpdvlL49Nb5LRsOO6TM',
+    authDomain: 'bookclubapp-1da56.firebaseapp.com',
+    databaseURL: 'https://bookclubapp-1da56.firebaseio.com',
+    projectId: 'bookclubapp-1da56',
+    storageBucket: 'bookclubapp-1da56.appspot.com',
+    messagingSenderId: '422544061449'
 };
 firebase.initializeApp(config);
 let database = firebase.database();
-
 
 let nytKey = '2cLMsa04TtSGMPHaBnBBRjtXNhjTHcFp';
 let nytQuery = `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=${nytKey}`;
@@ -17,7 +16,7 @@ let nytQuery = `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fic
 $.ajax({
     url: nytQuery,
     method: 'GET'
-}).then(function (data) {
+}).then(function(data) {
     /*
     console.log('NYT Bestsellers Data');
     console.log(data);
@@ -91,7 +90,7 @@ $.ajax({
 });
 */
 
-$('#searchGo').on('click', function (event) {
+$('#searchGo').on('click', function(event) {
     event.preventDefault();
     searchTitle = $('#searchBar')
         .val()
@@ -102,7 +101,7 @@ $('#searchGo').on('click', function (event) {
     $.ajax({
         url: olSearch,
         method: 'GET'
-    }).then(function (data) {
+    }).then(function(data) {
         olData = JSON.parse(data);
         console.log(`This is the data for ${searchTitle}`);
         console.log(olData);
@@ -121,31 +120,46 @@ $('#searchGo').on('click', function (event) {
 });
 
 // Grab Book club name
-$("#nameGo").on("click", function () {
-    let bcName = $("#nameInput").val().trim();
-    $(".navbar-brand").text(bcName);
-    let newBCKey = database.ref("/bookclubs").push({
+$('#nameGo').on('click', function() {
+    let bcName = $('#nameInput')
+        .val()
+        .trim();
+    $('#nameInput').val('');
+    $('.navbar-brand').text(bcName);
+    let newBCKey = database.ref('/bookclubs').push({
         name: bcName
     }).key;
-    let currentBCRef = database.ref("/bookclubs/" + newBCKey);
-    console.log(currentBCRef.toString())
+    let currentBCRef = database.ref('/bookclubs/' + newBCKey);
+    console.log(currentBCRef.toString());
 });
 
-database.ref("/bookclubs").on("child_added", function (snap) {
+database.ref('/bookclubs').on('child_added', function(snap) {
     let data = snap.val();
     let key = snap.key;
     let name = data.name;
-    let newAnchor = $("<a>").addClass("dropdown-item").text(name).attr("data-key", key);
-    $(".dropdown-menu").append(newAnchor);
-})
+    let newAnchor = $('<a>')
+        .addClass('dropdown-item')
+        .text(name)
+        .attr({ 'data-key': key, src: '#' });
+    $('.dropdown-menu').append(newAnchor);
+});
+
+$(document).on('click', '.dropdown-item', function() {
+    console.log('dropdown item clicked');
+    let name = $(this).text();
+    let key = $(this).attr('data-key');
+    $('.navbar-brand').text(`Club: ${name} | Key: ${key}`);
+    $('#bcName').toggle(400);
+    $('.bc-area').toggle(400);
+});
 
 // Full Calendar
 
-document.addEventListener('DOMContentLoaded', function () {
+$('#showCalendar').on('click', function() {
+    $(this).remove();
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-<<<<<<< HEAD
         plugins: ['interaction', 'dayGrid', 'timeGrid'],
         defaultView: 'dayGridMonth',
         header: {
@@ -156,11 +170,12 @@ document.addEventListener('DOMContentLoaded', function () {
         customButtons: {
             addEventButton: {
                 text: 'add event...',
-                click: function () {
+                click: function() {
                     var dateStr = prompt('Enter a date in YYYY-MM-DD format');
                     var date = new Date(dateStr + 'T00:00:00'); // will be in local time
 
-                    if (!isNaN(date.valueOf())) { // valid?
+                    if (!isNaN(date.valueOf())) {
+                        // valid?
                         calendar.addEvent({
                             title: 'dynamic event',
                             start: date,
@@ -173,35 +188,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         }
-=======
-        plugins: ['interaction', 'dayGrid', 'timeGrid'],
-        defaultView: 'dayGridMonth',
-        header: {
-            left: 'title',
-            center: 'addEventButton',
-            right: 'today dayGridMonth,timeGridWeek'
-        },
-        customButtons: {
-            addEventButton: {
-                text: 'add event...',
-                click: function () {
-                    var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-                    var date = new Date(dateStr + 'T00:00:00'); // will be in local time
-
-                    if (!isNaN(date.valueOf())) { // valid?
-                        calendar.addEvent({
-                            title: 'dynamic event',
-                            start: date,
-                            allDay: true
-                        });
-                        alert('Great. Now, update your database...');
-                    } else {
-                        alert('Invalid date.');
-                    }
-                }
-            }
-        }
->>>>>>> 8229a8db4b755c6f2d2a1fa7a5c7d040aa0ff819
     });
 
     calendar.render();
