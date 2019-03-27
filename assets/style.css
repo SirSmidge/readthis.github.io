@@ -18,15 +18,19 @@ html {
 }
 
 .navbar-brand {
-    
+    width: 100%;
+    margin: auto;
     background-color: #4aaaa5;
     padding: 15px 5px 15px 5px;
 }
 
 li,
-.navbar-nav {
+.navbar,
+.input-group {
     display: inline;
 }
+
+
 
 a {
     font-size: 15px;
@@ -51,12 +55,17 @@ span {
     color: #fff;
 }
 
+.input-group.md-form.form-sm.form-1 input{
+    width: 25%;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #bdbdbd;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+.input-group.md-form.form-sm.form-2 input {
+    border: 1px solid #bdbdbd;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
 /* End Nav */
-.active-purple-2 input[type=text]:focus:not([readonly]) {
-    border-bottom: 1px solid #ce93d8;
-    box-shadow: 0 1px 0 0 #ce93d8;
-    }
-    .active-purple input[type=text] {
-    border-bottom: 1px solid #ce93d8;
-    box-shadow: 0 1px 0 0 #ce93d8;
-    }
