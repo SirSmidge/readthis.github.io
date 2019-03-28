@@ -31,6 +31,9 @@ a:hover {
 
 /* End Nav */
 
+
+/* Parallax */
+
 .parallax {
     /* The image used */
     background-image: url("images/csabi-elter-70476-unsplash.jpg");
@@ -44,3 +47,35 @@ a:hover {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+/* End Parallax */
+
+
+/* Main Content/Index */
+
+.mainBookImage {
+    padding: 7px;
+    margin: auto;
+}
+
+.syn {
+    padding: 5px;
+    margin: auto;
+}
+
+/* End Main Content/Index */
+
+
+/* Footer */
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #666666;
+    border-top: 3px solid #4aaaa5;
+}
+
+/* End Footer */
