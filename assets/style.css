@@ -63,6 +63,11 @@ a:hover {
     margin: auto;
 }
 
+.bTitle{
+    padding: 5px;
+    margin: auto;
+}
+
 .syn {
     padding: 5px;
     margin: auto;
@@ -71,6 +76,7 @@ a:hover {
 .topTens{
     background-color: rgb(250, 244, 235);
     border: 3px solid grey;
+    border-radius: 5px; 
 }
 
 /* End Main Content/Index */
