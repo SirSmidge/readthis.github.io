@@ -1,5 +1,5 @@
 html {
-    max-width: 100%;
+    width: 100%;
     position: relative;
     min-height: 100%;
     margin: auto;
@@ -52,8 +52,13 @@ a:hover {
 
 
 /* Main Content/Index */
+.searchResult{
+    padding-top:10px;
 
+}
 .mainBookImage {
+    max-height: 20%;
+    width: auto;
     padding: 7px;
     margin: auto;
 }
@@ -63,19 +68,41 @@ a:hover {
     margin: auto;
 }
 
+.topTens{
+    background-color: rgb(250, 244, 235);
+    border: 3px solid grey;
+}
+
 /* End Main Content/Index */
 
 
 /* Footer */
 
 .footer {
-    position: absolute;
+    /* position: absolute; */
     bottom: 0;
     width: 100%;
     /* Set the fixed height of the footer here */
     height: 60px;
-    background-color: #666666;
-    border-top: 3px solid #4aaaa5;
+    background-color: #fdfafa;
+    border-top: 3px solid #07ebdf;
+}
+
+.justify-content-center {
+    background-color: #fdfafa;
+
+}
+
+.footLink {
+    color: black;
+    display: inline;
+}
+
+#bottom {
+    height: 15px;
+    max-width: 100%;
+    padding: 5px;
+    margin: auto;
 }
 
 /* End Footer */
