@@ -13,7 +13,7 @@ let database = firebase.database(),
 
 
 // * Grab Book club name
-$('#nameGo').on('click', function() {
+$('#nameGo').on('click', function () {
     let bcName = $('#nameInput')
         .val()
         .trim();
@@ -26,7 +26,7 @@ $('#nameGo').on('click', function() {
     console.log(currentBCRef.toString());
 });
 
-database.ref('/bookclubs').on('child_added', function(snap) {
+database.ref('/bookclubs').on('child_added', function (snap) {
     let data = snap.val();
     let key = snap.key;
     let name = data.name;
@@ -40,29 +40,34 @@ database.ref('/bookclubs').on('child_added', function(snap) {
     $('.dropdown-menu').append(newAnchor);
 });
 
-$(document).on('click', '.dropdown-item', function() {
+$('#mainContent').toggle();
+
+$(document).on('click', '.dropdown-item', '#mainContent', function () {
     console.log('dropdown item clicked');
     let name = $(this).text();
     let key = $(this).attr('data-key');
-    $('.navbar-brand').text(`Club: ${name} | Key: ${key}`);
+    $('.navbar-brand').text(`${name}`);
     $('#bcName').toggle(400);
     $('.bc-area').toggle(400);
+    $('#mainContent').toggle(400);
     activeBC = database.ref(`/bookclubs/${key}`);
 });
 
+    
+
 // ! Full Calendar
 
-$('#showCalendar').on('click', function() {
+$('#showCalendar').on('click', function () {
     $('#calendar').html('');
     var calendarEl = document.getElementById('calendar');
 
     var recalledEvent = {};
 
-    activeBC.on('value', function(snap) {
+    activeBC.on('value', function (snap) {
         let data = snap.val();
-        !(typeof data.event == 'undefined')
-            ?(recalledEvent = data.event)
-            :(recalledEvent = {});
+        !(typeof data.event == 'undefined') ?
+        (recalledEvent = data.event) :
+        (recalledEvent = {});
     });
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -76,7 +81,7 @@ $('#showCalendar').on('click', function() {
         customButtons: {
             addEventButton: {
                 text: 'add event...',
-                click: function() {
+                click: function () {
                     var dateStr = prompt('Enter a date in YYYY-MM-DD format');
                     var date = new Date(dateStr + 'T18:00:00'); // will be in local time
 
@@ -104,7 +109,7 @@ $('#showCalendar').on('click', function() {
         events: [recalledEvent]
     });
     calendar.render();
-    setTimeout(function() {
+    setTimeout(function () {
         console.log(`I'm in the Timeout!`);
         calendar.changeView('dayGridMonth');
     }, 500);
@@ -150,7 +155,7 @@ $.ajax({
 });
 */
 
-$('#searchGo').on('click', function(event) {
+$('#searchGo').on('click', function (event) {
     event.preventDefault();
     searchTitle = $('#searchBar')
         .val()
@@ -161,28 +166,26 @@ $('#searchGo').on('click', function(event) {
     $.ajax({
         url: olSearch,
         method: 'GET'
-    }).then(function(data) {
+    }).then(function (data) {
         olData = JSON.parse(data);
         book = olData.docs[0];
 
         // create book object and push to firebase
-        !(typeof book.isbn == 'undefined')
-            ? (cover = `http://covers.openlibrary.org/b/isbn/${
-                  book.isbn[0]
-              }-L.jpg`)
-            : (cover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`);
-        !(typeof book.title == 'undefined')
-            ? (title = book.title)
-            : (title = 'Not Found');
-        !(typeof book.author_name == 'undefined')
-            ? (author = book.author_name[0])
-            : (author = 'Not Found');
-        !(typeof book.first_sentence == 'undefined')
-            ? (first_sentence = book.first_sentence)
-            : (first_sentence = 'Not Found');
-        !(typeof book.title == 'undefined')
-            ? (title = book.title)
-            : (title = 'Not Found');
+        !(typeof book.isbn == 'undefined') ?
+        (cover = `http://covers.openlibrary.org/b/isbn/${book.isbn[0]}-L.jpg`) :
+        (cover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`);
+        !(typeof book.title == 'undefined') ?
+        (title = book.title) :
+        (title = 'Not Found');
+        !(typeof book.author_name == 'undefined') ?
+        (author = book.author_name[0]) :
+        (author = 'Not Found');
+        !(typeof book.first_sentence == 'undefined') ?
+        (first_sentence = book.first_sentence) :
+        (first_sentence = 'Not Found');
+        !(typeof book.title == 'undefined') ?
+        (title = book.title) :
+        (title = 'Not Found');
 
         let bookObj = {
             title: title,
@@ -210,7 +213,7 @@ let nytQuery = `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fic
 $.ajax({
     url: nytQuery,
     method: 'GET'
-}).then(function(data) {
+}).then(function (data) {
     /*
     console.log('NYT Bestsellers Data');
     console.log(data);

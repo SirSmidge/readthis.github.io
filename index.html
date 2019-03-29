@@ -37,7 +37,7 @@
 
     <body>
         <nav class="navbar navbar-expand-lg">
-            <a class="navbar-brand" href="#">Literary Assassins</a>
+            <a class="navbar-brand" href="#">Book Clubs</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -49,37 +49,33 @@
                         <a class="nav-link" id="showCalendar" data-toggle="modal" data-target="#calendarModal"
                             href="#">Calender</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Your Club</a>
-                    </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" id='searchBar' type="search" placeholder="Search"
-                        aria-label="Search">
-                    <button class="btn aqua-gradient my-2 my-sm-0" id='searchGo' type="submit">Search</button>
+                    <input class="form-control" id='searchBar' type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn aqua-gradient" id='searchGo' type="submit">Search</button>
                 </form>
             </div>
         </nav>
         <!-- End nav -->
-        <main>
 
-            <!-- Enter your book club name -->
-            <div id="bcName" class="m-5">
-                <h3>Enter Your Book Club's Name Below:</h3>
-                <input type="text" id="nameInput" class="form-control mb-2" />
-                <input type="submit" id="nameGo" class="form-control bg-warning mb-3" />
-                <h3>
-                    Or Select from One of the Existing Book Clubs on Our List
-                </h3>
-                <div class="dropdown">
-                    <button class="btn btn-success btn-block btn-lg dropdown-toggle" type="button"
-                        data-toggle="dropdown" id="bcMenu" aria-haspopup="true" aria-expanded="false">
-                        Find Your Book Club
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="bcMenu"></div>
-                </div>
+
+
+        <!-- Enter your book club name -->
+        <div id="bcName" class="m-5">
+            <h3>Enter Your Book Club's Name Below:</h3>
+            <input type="text" id="nameInput" class="form-control mb-2" />
+            <input type="submit" id="nameGo" class="form-control bg-warning mb-3" />
+            <div class="dropdown">
+                <button class="btn btn-success btn-block btn-lg dropdown-toggle" type="button" data-toggle="dropdown"
+                    id="bcMenu" aria-haspopup="true" aria-expanded="false">
+                    Already listed?
+                </button>
+                <div class="dropdown-menu" aria-labelledby="bcMenu"></div>
             </div>
+        </div>
 
+        <!-- The main content -->
+        <main id='mainContent'>
             <!--  the parallax stuff -->
             <div class='parallax'></div>
             <div class='row'>
@@ -128,7 +124,7 @@
                     </div>
                 </div>
             </div>
-
+        </main>
 
             <!-- modal cal -->
             <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog">
@@ -153,7 +149,6 @@
                     </div>
                 </div>
             </div>
-        </main>
     </body>
 
     <footer class='footer'>
