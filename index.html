@@ -30,155 +30,168 @@
         <link rel="stylesheet" href="assets/css/styles.css" />
     </head>
     <body>
-        <nav
-            class="navbar navbar-light navbar-expand-md navigation-clean-search"
+        <div
+            style="width: 100%; height: 1000px"
+            data-vide-bg="assets/video/bg.mp4"
+            data-vide-options="loop: true, muted: true, position: 0% 0%"
         >
             <div class="container">
-                <a class="navbar-brand" href="#">The Book Club</a
-                ><button
-                    class="navbar-toggler"
-                    data-toggle="collapse"
-                    data-target="#navcol-1"
-                >
-                    <span class="sr-only">Toggle navigation</span
-                    ><span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navcol-1">
-                    <ul class="nav navbar-nav"></ul>
-                    <form class="form-inline mr-auto" target="_self"></form>
-                    <a
-                        class="btn btn-light action-button"
-                        role="button"
-                        href="#"
-                        >Search</a
-                    >
-                </div>
-            </div>
-        </nav>
-        <div class="container">
-            <div id="bcName" class="m-5">
-                <h3>Enter Your Book Club's Name Below:</h3>
-                <input type="text" id="nameInput" class="form-control mb-2" />
-                <input
-                    type="submit"
-                    id="nameGo"
-                    class="form-control bg-warning mb-3"
-                />
-                <h3>
-                    Or Select from One of the Existing Book Clubs on Our List
-                </h3>
-                <div class="dropdown">
-                    <button
-                        class="btn btn-success btn-block btn-lg dropdown-toggle"
-                        type="button"
-                        data-toggle="dropdown"
-                        id="bcMenu"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                    >
-                        Find Your Book Club
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="bcMenu"></div>
-                </div>
-            </div>
-            <div class="bc-area">
-                <button
-                    class="btn btn-block btn-lg bg-success text-white"
-                    id="showCalendar"
-                    data-toggle="modal"
-                    data-target="#calendarModal"
-                >
-                    Show Calendar
-                </button>
-
-                <!-- Modal -->
-                <div
-                    class="modal fade"
-                    id="calendarModal"
-                    tabindex="-1"
-                    role="dialog"
-                >
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">
-                                    Calendar
-                                </h5>
-                                <button
-                                    type="button"
-                                    class="close"
-                                    data-dismiss="modal"
-                                    aria-label="Close"
+                <div id="bcName">
+                    <form>
+                        <div class="row">
+                            <div class="col-10">
+                                <label for="nameInput" class="sr-only"
+                                    >Book Club Name</label
                                 >
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <input
+                                    type="text"
+                                    id="nameInput"
+                                    class="form-control mb-2"
+                                    placeholder="Enter Your Book Club's Name"
+                                />
+                                <div class="input-underline"></div>
                             </div>
-                            <div class="modal-body">
-                                <div id="calendar"></div>
-                            </div>
-                            <div class="modal-footer">
+                            <div class="col-1">
                                 <button
-                                    type="button"
-                                    class="btn btn-secondary"
-                                    data-dismiss="modal"
+                                    type="submit"
+                                    id="nameGo"
+                                    class="bg-warning btn btn-lg"
+                                    disabled
                                 >
-                                    Close
+                                    Go
                                 </button>
                             </div>
                         </div>
+                    </form>
+
+                    <h3 class="mt-3">
+                        Or Select from One of the Existing Book Clubs on Our
+                        List
+                    </h3>
+                    <div class="dropdown">
+                        <button
+                            class="btn btn-success btn-block btn-lg dropdown-toggle"
+                            type="button"
+                            data-toggle="dropdown"
+                            id="bcMenu"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            disabled
+                        >
+                            Find Your Book Club
+                        </button>
+                        <div
+                            class="dropdown-menu"
+                            aria-labelledby="bcMenu"
+                        ></div>
                     </div>
                 </div>
-                <div id="search" class="m-4">
-                    <h2>Search for Book</h2>
-                    <input type="text" id="searchBar" class="form-control" />
-                    <input
-                        type="submit"
-                        id="searchGo"
-                        class="form-control bg-danger text-white"
-                    />
-                    <div id="results"></div>
-                </div>
-                <h1>New York Times Best Sellers</h1>
+                <div class="bc-area">
+                    <button
+                        class="btn btn-block btn-lg bg-success text-white"
+                        id="showCalendar"
+                        data-toggle="modal"
+                        data-target="#calendarModal"
+                    >
+                        Show Calendar
+                    </button>
 
-                <div
-                    id="nytCarousel"
-                    class="carousel slide"
-                    data-ride="carousel"
-                >
-                    <ol class="carousel-indicators"></ol>
-                    <div class="carousel-inner"></div>
-                    <a
-                        class="carousel-control-prev"
-                        href="#nytCarousel"
-                        role="button"
-                        data-slide="prev"
+                    <!-- Modal -->
+                    <div
+                        class="modal fade"
+                        id="calendarModal"
+                        tabindex="-1"
+                        role="dialog"
                     >
-                        <span
-                            class="carousel-control-prev-icon"
-                            aria-hidden="true"
-                        ></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a
-                        class="carousel-control-next"
-                        href="#nytCarousel"
-                        role="button"
-                        data-slide="next"
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5
+                                        class="modal-title"
+                                        id="exampleModalLabel"
+                                    >
+                                        Calendar
+                                    </h5>
+                                    <button
+                                        type="button"
+                                        class="close"
+                                        data-dismiss="modal"
+                                        aria-label="Close"
+                                    >
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="calendar"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button
+                                        type="button"
+                                        class="btn btn-secondary"
+                                        data-dismiss="modal"
+                                    >
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="search" class="m-4">
+                        <h2>Search for Book</h2>
+                        <input
+                            type="text"
+                            id="searchBar"
+                            class="form-control"
+                        />
+                        <input
+                            type="submit"
+                            id="searchGo"
+                            class="form-control bg-danger text-white"
+                        />
+                        <div id="results"></div>
+                    </div>
+                    <h1>New York Times Best Sellers</h1>
+
+                    <div
+                        id="nytCarousel"
+                        class="carousel slide"
+                        data-ride="carousel"
                     >
-                        <span
-                            class="carousel-control-next-icon"
-                            aria-hidden="true"
-                        ></span>
-                        <span class="sr-only">Next</span>
-                    </a>
+                        <ol class="carousel-indicators"></ol>
+                        <div class="carousel-inner"></div>
+                        <a
+                            class="carousel-control-prev"
+                            href="#nytCarousel"
+                            role="button"
+                            data-slide="prev"
+                        >
+                            <span
+                                class="carousel-control-prev-icon"
+                                aria-hidden="true"
+                            ></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a
+                            class="carousel-control-next"
+                            href="#nytCarousel"
+                            role="button"
+                            data-slide="next"
+                        >
+                            <span
+                                class="carousel-control-next-icon"
+                                aria-hidden="true"
+                            ></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
 
         <script src="assets/js/jquery.min.js"></script>
         <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/js/bs-animation.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
+        <script src="assets/js/jquery.vide.min.js"></script>
         <script src="assets/js/script.js"></script>
     </body>
 </html>

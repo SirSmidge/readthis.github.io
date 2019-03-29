@@ -12,7 +12,8 @@ let database = firebase.database(),
     activeBC = '';
 
 // * Grab Book club name
-$('#nameGo').on('click', function() {
+$('#nameGo').on('click', function(e) {
+    e.preventDefault();
     let bcName = $('#nameInput')
         .val()
         .trim();
