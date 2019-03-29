@@ -12,18 +12,27 @@ let database = firebase.database(),
     activeBC = '';
 
 // * Grab Book club name
+
 $('#nameGo').on('click', function() {
+    // ! #nameGo is a button
     let bcName = $('#nameInput')
         .val()
         .trim();
+    // ! #nameInput is a text input
     $('#nameInput').val('');
     $('.navbar-brand').text(bcName);
+    // ! updating .navbar-brand isn't necessary
+    // ! I put it there for visual feedback that firebase was working
     let newBCKey = database.ref('/bookclubs').push({
         name: bcName
     }).key;
+    // ! this returns the firebase key for the newly pushed bookclub
     activeBC = database.ref(`/bookclubs/${newBCKey}`);
+    // ! this creates a variable to the active (new) book club reference on firebase
+    // TODO need to toggle the bcName and bc-area switcher when user inputs a new bookclub
 });
 
+//! populate dropdown menu with existing bookclubs from db
 database.ref('/bookclubs').on('child_added', function(snap) {
     let data = snap.val();
     let key = snap.key;
@@ -38,31 +47,46 @@ database.ref('/bookclubs').on('child_added', function(snap) {
     $('.dropdown-menu').append(newAnchor);
 });
 
+// ! when bookclub from dropdown is clicked...
 $(document).on('click', '.dropdown-item', function() {
-    console.log('dropdown item clicked');
     let name = $(this).text();
     let key = $(this).attr('data-key');
+    // ! grab bc's key I stored in a data- attribute
+
     $('.navbar-brand').text(`Club: ${name} | Key: ${key}`);
+    // ! we don't need to update .navbar-brand, this was just to test
+    // ! but we can have a message somewhere that displays their info, etc.
+
+    //! this is is the ui/screen toggle switcher thing
     $('#bcName').toggle(400);
     $('.bc-area').toggle(400);
+
+    // ! update the activeBC reference to the clicked bookclub's key.
     activeBC = database.ref(`/bookclubs/${key}`);
 });
 
-// ! Full Calendar
+// ! Full Calendar stuff
 
+// ! when #showCalendar is clicked, dynamically render calendar
 $('#showCalendar').on('click', function() {
+    // ! empty the div to prevent multiple calendars
     $('#calendar').html('');
+
+    // ! the below is fullCalendar.io functions/syntax
     var calendarEl = document.getElementById('calendar');
 
     var recalledEvent = {};
 
+    // ! looks for existing events on firebase
     activeBC.on('value', function(snap) {
         let data = snap.val();
         !(typeof data.event == 'undefined')
             ? (recalledEvent = data.event)
             : (recalledEvent = {});
+        // ! above: basically, if event exists: assign it to recalledEvent, else: return an empty object
     });
 
+    // ! the below is the part that creates the calendar.
     var calendar = new FullCalendar.Calendar(calendarEl, {
         plugins: ['interaction', 'dayGrid'],
         defaultView: 'dayGridMonth',
@@ -101,7 +125,10 @@ $('#showCalendar').on('click', function() {
         },
         events: [recalledEvent]
     });
+    // ! line below: unction that makes it all work
     calendar.render();
+
+    // ! my little hack to make it work in our modal
     setTimeout(function() {
         console.log(`I'm in the Timeout!`);
         calendar.changeView('dayGridMonth');
@@ -110,14 +137,15 @@ $('#showCalendar').on('click', function() {
 
 // * OPEN LIBRARY SEARCH
 
-let searchTitle = '';
-let olSearch = `http://openlibrary.org/search.json?q=${searchTitle}`;
-
-let cover = '',
+// ! these are my variables for the book search engine
+let searchTitle = '',
+    olSearch = `http://openlibrary.org/search.json?q=${searchTitle}`,
+    cover = '',
     title = '',
     author = '',
     first_sentence = '';
 
+// ! the commented shit below is my openlib object cheat sheet
 /* 
 $.ajax({
     url: olSearch,
@@ -149,12 +177,15 @@ $.ajax({
 });
 */
 
+// ! grabbing shit from the search input for our ajax call
 $('#searchGo').on('click', function(event) {
     event.preventDefault();
     searchTitle = $('#searchBar')
         .val()
         .trim();
     $('#searchBar').val('');
+
+    // ! form the query
     olSearch = `http://openlibrary.org/search.json?q=${searchTitle}`;
 
     $.ajax({
@@ -164,12 +195,15 @@ $('#searchGo').on('click', function(event) {
         olData = JSON.parse(data);
         book = olData.docs[0];
 
-        // create book object and push to firebase
+        // ! create book object and push to firebase
+        // ! lots of type validation because if we return undefined, everything breaks and we all die
         !(typeof book.isbn == 'undefined')
             ? (cover = `http://covers.openlibrary.org/b/isbn/${
                   book.isbn[0]
               }-L.jpg`)
             : (cover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`);
+        // ! the above link is a default 'book not pictured' image. i'm hotlinking it right now
+        // ! we should save it and add it to our image assets.
         !(typeof book.title == 'undefined')
             ? (title = book.title)
             : (title = 'Not Found');
@@ -183,17 +217,20 @@ $('#searchGo').on('click', function(event) {
             ? (title = book.title)
             : (title = 'Not Found');
 
+        // ! create the book object
         let bookObj = {
             title: title,
             author: author,
             cover: cover,
             first_sentence: first_sentence
         };
+
+        // ! push it to firebase
         activeBC.update({
             book: bookObj
         });
 
-        // show on DOM
+        // ! show on DOM, but this will be changed to better fit our UI and display more information.
         let bookDiv = $('<div>');
         let coverimg = $('<img>').attr('src', cover);
         let titleText = $('<h1>').text(title);
@@ -210,6 +247,7 @@ $.ajax({
     url: nytQuery,
     method: 'GET'
 }).then(function(data) {
+    // ! nyt object cheatsheat
     /*
     console.log('NYT Bestsellers Data');
     console.log(data);
@@ -235,7 +273,7 @@ $.ajax({
     console.log(data.results.books[0].buy_links[0].url);
     */
 
-    // loop that prints top 10
+    // ! loop that prints top 10 into carousel
     for (var i = 0; i < 10; i++) {
         let bookDiv = $('<div>').addClass('carousel-item');
         if (i == 0) bookDiv.addClass('active');
@@ -254,18 +292,3 @@ $.ajax({
         $('.carousel-inner').append(bookDiv);
     }
 });
-
-/*
-
-<li data-target="#nytCarousel" data-slide-to="i"></li>
-
-<div class="carousel-item">
-      <img class="d-block w-100" src="..." alt="Second slide">
-      <div class="carousel-caption d-none d-md-block">
-    <h5>Book Title</h5>
-    <p>Author</p>
-  </div>
-    </div>
-
-
-*/
