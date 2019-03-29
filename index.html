@@ -62,6 +62,25 @@
         </nav>
         <!-- End nav -->
         <main>
+
+            <!-- Enter your book club name -->
+            <div id="bcName" class="m-5">
+                <h3>Enter Your Book Club's Name Below:</h3>
+                <input type="text" id="nameInput" class="form-control mb-2" />
+                <input type="submit" id="nameGo" class="form-control bg-warning mb-3" />
+                <h3>
+                    Or Select from One of the Existing Book Clubs on Our List
+                </h3>
+                <div class="dropdown">
+                    <button class="btn btn-success btn-block btn-lg dropdown-toggle" type="button"
+                        data-toggle="dropdown" id="bcMenu" aria-haspopup="true" aria-expanded="false">
+                        Find Your Book Club
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="bcMenu"></div>
+                </div>
+            </div>
+
+            <!--  the parallax stuff -->
             <div class='parallax'></div>
             <div class='row'>
                 <div class='col-lg-8'>
@@ -109,10 +128,10 @@
                     </div>
                 </div>
             </div>
-        </main>
 
-        <!-- modal cal -->
-        <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog">
+
+            <!-- modal cal -->
+            <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -134,6 +153,7 @@
                     </div>
                 </div>
             </div>
+        </main>
     </body>
 
     <footer class='footer'>
