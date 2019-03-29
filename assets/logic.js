@@ -1,4 +1,4 @@
-√// ! Initialize Firebase
+// ! Initialize Firebase
 var config = {
     apiKey: 'AIzaSyCqb0IslXJ9cwRQJpdvlL49Nb5LRsOO6TM',
     authDomain: 'bookclubapp-1da56.firebaseapp.com',
@@ -11,28 +11,6 @@ firebase.initializeApp(config);
 let database = firebase.database(),
     activeBC = '';
 
-// Scroll stuff
-$('a[href*="#"]:not([href="#"])').click(function() {
-    if (
-        location.pathname.replace(/^\//, '') ==
-            this.pathname.replace(/^\//, '') &&
-        location.hostname == this.hostname
-    ) {
-        var target = $(this.hash);
-        target = target.length
-            ? target
-            : $('[name=' + this.hash.slice(1) + ']');
-        if (target.length) {
-            $('html, body').animate(
-                {
-                    scrollTop: target.offset().top
-                },
-                1000
-            );
-            return false;
-        }
-    }
-});
 
 // * Grab Book club name
 $('#nameGo').on('click', function() {
@@ -83,8 +61,8 @@ $('#showCalendar').on('click', function() {
     activeBC.on('value', function(snap) {
         let data = snap.val();
         !(typeof data.event == 'undefined')
-            ? (recalledEvent = data.event)
-            : (recalledEvent = {});
+            ?(recalledEvent = data.event)
+            :(recalledEvent = {});
     });
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
