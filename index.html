@@ -85,10 +85,49 @@
                 <button
                     class="btn btn-block btn-lg bg-success text-white"
                     id="showCalendar"
+                    data-toggle="modal"
+                    data-target="#calendarModal"
                 >
                     Show Calendar
                 </button>
-                <div id="calendar"></div>
+
+                <!-- Modal -->
+                <div
+                    class="modal fade"
+                    id="calendarModal"
+                    tabindex="-1"
+                    role="dialog"
+                >
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">
+                                    Calendar
+                                </h5>
+                                <button
+                                    type="button"
+                                    class="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                >
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="calendar"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-dismiss="modal"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div id="search" class="m-4">
                     <h2>Search for Book</h2>
                     <input type="text" id="searchBar" class="form-control" />

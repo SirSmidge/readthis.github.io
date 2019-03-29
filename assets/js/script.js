@@ -11,6 +11,29 @@ firebase.initializeApp(config);
 let database = firebase.database(),
     activeBC = '';
 
+// Scroll stuff
+$('a[href*="#"]:not([href="#"])').click(function() {
+    if (
+        location.pathname.replace(/^\//, '') ==
+            this.pathname.replace(/^\//, '') &&
+        location.hostname == this.hostname
+    ) {
+        var target = $(this.hash);
+        target = target.length
+            ? target
+            : $('[name=' + this.hash.slice(1) + ']');
+        if (target.length) {
+            $('html, body').animate(
+                {
+                    scrollTop: target.offset().top
+                },
+                1000
+            );
+            return false;
+        }
+    }
+});
+
 // * Grab Book club name
 $('#nameGo').on('click', function() {
     let bcName = $('#nameInput')
@@ -49,10 +72,10 @@ $(document).on('click', '.dropdown-item', function() {
     activeBC = database.ref(`/bookclubs/${key}`);
 });
 
-// * Full Calendar
+// ! Full Calendar
 
 $('#showCalendar').on('click', function() {
-    $(this).remove();
+    $('#calendar').html('');
     var calendarEl = document.getElementById('calendar');
 
     var recalledEvent = {};
@@ -102,8 +125,11 @@ $('#showCalendar').on('click', function() {
         },
         events: [recalledEvent]
     });
-
     calendar.render();
+    setTimeout(function() {
+        console.log(`I'm in the Timeout!`);
+        calendar.changeView('dayGridMonth');
+    }, 500);
 });
 
 // * OPEN LIBRARY SEARCH
