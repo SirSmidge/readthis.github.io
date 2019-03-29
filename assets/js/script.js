@@ -11,29 +11,6 @@ firebase.initializeApp(config);
 let database = firebase.database(),
     activeBC = '';
 
-// Scroll stuff
-$('a[href*="#"]:not([href="#"])').click(function() {
-    if (
-        location.pathname.replace(/^\//, '') ==
-            this.pathname.replace(/^\//, '') &&
-        location.hostname == this.hostname
-    ) {
-        var target = $(this.hash);
-        target = target.length
-            ? target
-            : $('[name=' + this.hash.slice(1) + ']');
-        if (target.length) {
-            $('html, body').animate(
-                {
-                    scrollTop: target.offset().top
-                },
-                1000
-            );
-            return false;
-        }
-    }
-});
-
 // * Grab Book club name
 $('#nameGo').on('click', function() {
     let bcName = $('#nameInput')
@@ -44,8 +21,7 @@ $('#nameGo').on('click', function() {
     let newBCKey = database.ref('/bookclubs').push({
         name: bcName
     }).key;
-    let currentBCRef = database.ref('/bookclubs/' + newBCKey);
-    console.log(currentBCRef.toString());
+    activeBC = database.ref(`/bookclubs/${newBCKey}`);
 });
 
 database.ref('/bookclubs').on('child_added', function(snap) {
@@ -261,10 +237,35 @@ $.ajax({
 
     // loop that prints top 10
     for (var i = 0; i < 10; i++) {
-        let bookDiv = $('<div>');
-        let cover = $('<img>').attr('src', data.results.books[i].book_image);
-        let title = $('<h1>').text(data.results.books[i].title);
-        bookDiv.append(title, cover);
-        $('#covers').append(bookDiv);
+        let bookDiv = $('<div>').addClass('carousel-item');
+        if (i == 0) bookDiv.addClass('active');
+        let cover = $('<img>')
+            .addClass('d-block w-100')
+            .attr('src', data.results.books[i].book_image);
+        let caption = $('<div>').addClass('carousel-caption');
+        let title = $('<h5>').text(data.results.books[i].title);
+        let author = $('<p>').text(data.results.books[0].author);
+        caption.append(title, author);
+        bookDiv.append(cover, caption);
+        let indicator = $('<li>').attr('data-target', '#nytCarousel');
+        indicator.attr('data-slide-to', i);
+        if (i == 0) indicator.addClass('active');
+        $('.carousel-indicators').append(indicator);
+        $('.carousel-inner').append(bookDiv);
     }
 });
+
+/*
+
+<li data-target="#nytCarousel" data-slide-to="i"></li>
+
+<div class="carousel-item">
+      <img class="d-block w-100" src="..." alt="Second slide">
+      <div class="carousel-caption d-none d-md-block">
+    <h5>Book Title</h5>
+    <p>Author</p>
+  </div>
+    </div>
+
+
+*/
