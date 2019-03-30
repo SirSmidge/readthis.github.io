@@ -11,31 +11,9 @@ firebase.initializeApp(config);
 let database = firebase.database(),
     activeBC = '';
 
-// Scroll stuff
-$('a[href*="#"]:not([href="#"])').click(function() {
-    if (
-        location.pathname.replace(/^\//, '') ==
-            this.pathname.replace(/^\//, '') &&
-        location.hostname == this.hostname
-    ) {
-        var target = $(this.hash);
-        target = target.length
-            ? target
-            : $('[name=' + this.hash.slice(1) + ']');
-        if (target.length) {
-            $('html, body').animate(
-                {
-                    scrollTop: target.offset().top
-                },
-                1000
-            );
-            return false;
-        }
-    }
-});
-
 // * Grab Book club name
-$('#nameGo').on('click', function() {
+$('#nameGo').on('click', function (e) {
+    e.preventDefault();
     let bcName = $('#nameInput')
         .val()
         .trim();
@@ -44,11 +22,12 @@ $('#nameGo').on('click', function() {
     let newBCKey = database.ref('/bookclubs').push({
         name: bcName
     }).key;
-    let currentBCRef = database.ref('/bookclubs/' + newBCKey);
-    console.log(currentBCRef.toString());
+    activeBC = database.ref(`/bookclubs/${newBCKey}`);
+    $('#bcName').toggle(400);
+    $('.bc-area').toggle(400);
 });
 
-database.ref('/bookclubs').on('child_added', function(snap) {
+database.ref('/bookclubs').on('child_added', function (snap) {
     let data = snap.val();
     let key = snap.key;
     let name = data.name;
@@ -62,29 +41,46 @@ database.ref('/bookclubs').on('child_added', function(snap) {
     $('.dropdown-menu').append(newAnchor);
 });
 
-$(document).on('click', '.dropdown-item', function() {
+$(document).on('click', '.dropdown-item', function () {
     console.log('dropdown item clicked');
     let name = $(this).text();
     let key = $(this).attr('data-key');
     $('.navbar-brand').text(`Club: ${name} | Key: ${key}`);
+
     $('#bcName').toggle(400);
     $('.bc-area').toggle(400);
+
+    $("#bc-name").text(name);
     activeBC = database.ref(`/bookclubs/${key}`);
+    activeBC.on("value", function (snap) {
+        let data = snap.val();
+
+        let book = {};
+        if (!(typeof data.book === 'undefined')) {
+            book = data.book;
+            $("#bc-book").text(`Book: ${book.title} by ${book.author}`);
+        } else {
+            $("#bc-book").text(`You haven't chosen a book yet!`);
+        }
+
+    });
+
 });
 
 // ! Full Calendar
 
-$('#showCalendar').on('click', function() {
+$('#showCalendar').on('click', function () {
     $('#calendar').html('');
     var calendarEl = document.getElementById('calendar');
 
-    var recalledEvent = {};
+    var recalledEvents = [];
 
-    activeBC.on('value', function(snap) {
+    activeBC.on('value', function (snap) {
         let data = snap.val();
-        !(typeof data.event == 'undefined')
-            ? (recalledEvent = data.event)
-            : (recalledEvent = {});
+        !(typeof data.events == 'undefined') ?
+        (recalledEvents = data.events) :
+        (recalledEvents = []);
+        console.log(recalledEvents);
     });
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -95,42 +91,48 @@ $('#showCalendar').on('click', function() {
             center: 'addEventButton',
             right: 'dayGridMonth'
         },
-        customButtons: {
-            addEventButton: {
-                text: 'add event...',
-                click: function() {
-                    var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-                    var date = new Date(dateStr + 'T18:00:00'); // will be in local time
-
-                    if (!isNaN(date.valueOf())) {
-                        // valid?
-                        // create event object
-                        let eventObj = {
-                            title: `Book Club Meeting!`,
-                            start: date,
-                            allDay: false
-                        };
-                        // add event to calendar
-                        calendar.addEvent(eventObj);
-
-                        // push event to firebase
-                        activeBC.update({
-                            event: eventObj
-                        });
-                    } else {
-                        alert('Invalid date.');
-                    }
-                }
-            }
-        },
-        events: [recalledEvent]
+        events: recalledEvents
     });
     calendar.render();
-    setTimeout(function() {
+    setTimeout(function () {
         console.log(`I'm in the Timeout!`);
         calendar.changeView('dayGridMonth');
     }, 500);
 });
+
+$(document).on("click", '#pushMeeting', function () {
+    let events = [];
+    activeBC.on("value", function (snap) {
+        let data = snap.val();
+        !(typeof data.events === "undefined") ?
+        events = data.events: events = []
+    });
+    let date = $("#eventDate").val();
+    let time = $("#eventTime").val();
+    let event = new Date(date + `T${time}:00`);
+    let eventObj = {
+        title: `Book Club Meeting!`,
+        start: event,
+        allDay: false
+    }
+    events.push(eventObj);
+
+
+    // push event to firebase
+    activeBC.update({
+        events: events
+    });
+});
+
+/* 
+
+Add Meeting function notes:
+
+time value = 24H:MM.
+push to FullCalendar like `T${time.val()}:00`
+
+
+*/
 
 // * OPEN LIBRARY SEARCH
 
@@ -173,7 +175,7 @@ $.ajax({
 });
 */
 
-$('#searchGo').on('click', function(event) {
+$('#searchGo').on('click', function (event) {
     event.preventDefault();
     searchTitle = $('#searchBar')
         .val()
@@ -184,28 +186,28 @@ $('#searchGo').on('click', function(event) {
     $.ajax({
         url: olSearch,
         method: 'GET'
-    }).then(function(data) {
+    }).then(function (data) {
         olData = JSON.parse(data);
         book = olData.docs[0];
 
         // create book object and push to firebase
-        !(typeof book.isbn == 'undefined')
-            ? (cover = `http://covers.openlibrary.org/b/isbn/${
+        !(typeof book.isbn == 'undefined') ?
+        (cover = `http://covers.openlibrary.org/b/isbn/${
                   book.isbn[0]
-              }-L.jpg`)
-            : (cover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`);
-        !(typeof book.title == 'undefined')
-            ? (title = book.title)
-            : (title = 'Not Found');
-        !(typeof book.author_name == 'undefined')
-            ? (author = book.author_name[0])
-            : (author = 'Not Found');
-        !(typeof book.first_sentence == 'undefined')
-            ? (first_sentence = book.first_sentence)
-            : (first_sentence = 'Not Found');
-        !(typeof book.title == 'undefined')
-            ? (title = book.title)
-            : (title = 'Not Found');
+              }-L.jpg`) :
+        (cover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`);
+        !(typeof book.title == 'undefined') ?
+        (title = book.title) :
+        (title = 'Not Found');
+        !(typeof book.author_name == 'undefined') ?
+        (author = book.author_name[0]) :
+        (author = 'Not Found');
+        !(typeof book.first_sentence == 'undefined') ?
+        (first_sentence = book.first_sentence) :
+        (first_sentence = 'Not Found');
+        !(typeof book.title == 'undefined') ?
+        (title = book.title) :
+        (title = 'Not Found');
 
         let bookObj = {
             title: title,
@@ -226,6 +228,24 @@ $('#searchGo').on('click', function(event) {
     });
 });
 
+// * Create Book Card Function
+function createBSCard(image, title, author) {
+    // main card
+    var card = $("<div>");
+    card.attr("class", "card");
+    card.attr("data-name", title);
+    // Card Image
+    var cardImage = $("<img>")
+    cardImage.attr("class", "card-image");
+    cardImage.attr("src", image);
+    cardImage.attr("data-title", title);
+    cardImage.attr("data-author", author);
+    // Building the card
+    card.append(cardImage);
+    //Append to your div here
+    $("#trending-books").append(card);
+}
+
 // * NYT BEST SELLERS
 let nytKey = '2cLMsa04TtSGMPHaBnBBRjtXNhjTHcFp';
 let nytQuery = `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=${nytKey}`;
@@ -233,7 +253,7 @@ let nytQuery = `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fic
 $.ajax({
     url: nytQuery,
     method: 'GET'
-}).then(function(data) {
+}).then(function (data) {
     /*
     console.log('NYT Bestsellers Data');
     console.log(data);
@@ -260,11 +280,10 @@ $.ajax({
     */
 
     // loop that prints top 10
-    for (var i = 0; i < 10; i++) {
-        let bookDiv = $('<div>');
-        let cover = $('<img>').attr('src', data.results.books[i].book_image);
-        let title = $('<h1>').text(data.results.books[i].title);
-        bookDiv.append(title, cover);
-        $('#covers').append(bookDiv);
+    for (var i = 0; i < 5; i++) {
+        createBSCard(data.results.books[i].book_image, data.results.books[i].title, data.results.books[0].author)
     }
 });
+
+/*
+ */
