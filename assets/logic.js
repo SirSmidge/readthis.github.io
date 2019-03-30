@@ -200,9 +200,11 @@ $('#searchGo').on('click', function (event) {
 
         // show on DOM
         let bookDiv = $('<div>');
-        let coverimg = $('<img>').attr('src', cover);
+        let coverImg = $('<img height:100px; width: auto; style="float:left">').attr('src', cover);
         let titleText = $('<h1>').text(title);
-        bookDiv.append(titleText, coverimg);
+        let bAuthor=$('<p>').text(author);
+        let sentence=$('<p>').text(first_sentence);
+        bookDiv.append(coverImg, titleText, bAuthor, sentence);
         $('#results').html(bookDiv);
     });
 });
@@ -248,9 +250,8 @@ $.ajax({
             .addClass('d-block w-100')
             .attr('src', data.results.books[i].book_image);
         let caption = $('<div>').addClass('carousel-caption');
-        let title = $('<h5>').text(data.results.books[i].title);
-        let author = $('<p>').text(data.results.books[0].author);
-        caption.append(title, author);
+        // let title = $('<h5>').text(data.results.books[i].title);
+        // let author = $('<p>').text(data.results.books[0].author);
         bookDiv.append(cover, caption);
         let indicator = $('<li>').attr('data-target', '#nytCarousel');
         indicator.attr('data-slide-to', i);
