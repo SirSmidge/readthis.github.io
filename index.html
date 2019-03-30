@@ -1,197 +1,156 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>The Book Club</title>
-        <script src="https://fullcalendar.io/releases/core/4.0.1/main.min.js"></script>
-        <script src="https://fullcalendar.io/releases/interaction/4.0.1/main.min.js"></script>
-        <script src="https://fullcalendar.io/releases/daygrid/4.0.1/main.min.js"></script>
-        <script src="https://fullcalendar.io/releases/timegrid/4.0.1/main.min.js"></script>
-        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="assets/fonts/font-awesome.min.css" />
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Bitter:400,700"
-        />
-        <link rel="stylesheet" href="assets/css/Navigation-with-Search.css" />
-        <link
-            href="https://fullcalendar.io/releases/core/4.0.1/main.min.css"
-            rel="stylesheet"
-        />
-        <link
-            href="https://fullcalendar.io/releases/daygrid/4.0.1/main.min.css"
-            rel="stylesheet"
-        />
-        <link
-            href="https://fullcalendar.io/releases/timegrid/4.0.1/main.min.css"
-            rel="stylesheet"
-        />
-        <link rel="stylesheet" href="assets/css/styles.css" />
-    </head>
-    <body>
-        <div
-            style="width: 100%; height: 1000px"
-            data-vide-bg="assets/video/bg.mp4"
-            data-vide-options="loop: true, muted: true, position: 0% 0%"
-        >
-            <div class="container">
-                <div id="bcName">
-                    <form>
-                        <div class="row">
-                            <div class="col-10">
-                                <label for="nameInput" class="sr-only"
-                                    >Book Club Name</label
-                                >
-                                <input
-                                    type="text"
-                                    id="nameInput"
-                                    class="form-control mb-2"
-                                    placeholder="Enter Your Book Club's Name"
-                                />
-                                <div class="input-underline"></div>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Book Club</title>
+    <script src="https://fullcalendar.io/releases/core/4.0.1/main.min.js"></script>
+    <script src="https://fullcalendar.io/releases/interaction/4.0.1/main.min.js"></script>
+    <script src="https://fullcalendar.io/releases/daygrid/4.0.1/main.min.js"></script>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css" />
+    <link href="https://fullcalendar.io/releases/core/4.0.1/main.min.css" rel="stylesheet" />
+    <link href="https://fullcalendar.io/releases/daygrid/4.0.1/main.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+
+<body>
+    <div style="width: 100%; height: 1500px" data-vide-bg="assets/video/bg.mp4"
+        data-vide-options="loop: false, muted: true, position: 0% 0%" id="videobg">
+        <div class="container">
+            <div id="bcName">
+                <form>
+                    <div class="row">
+                        <div class="col-10">
+                            <label for="nameInput" class="sr-only">Book Club Name</label>
+                            <input type="text" id="nameInput" class="form-control mb-2"
+                                placeholder="Enter Your Book Club's Name" />
+                            <div class="input-underline"></div>
+                        </div>
+                        <div class="col-1">
+                            <button type="submit" id="nameGo" class="bg-warning btn btn-lg">
+                                Go
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <h3 class="mt-3">
+                    Or Select from One of the Existing Book Clubs on Our
+                    List
+                </h3>
+                <div class="dropdown">
+                    <button class="btn btn-success btn-block btn-lg dropdown-toggle" type="button"
+                        data-toggle="dropdown" id="bcMenu" aria-haspopup="true" aria-expanded="false">
+                        Find Your Book Club
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="bcMenu"></div>
+                </div>
+            </div>
+            <div class="bc-area">
+                <h1>Your Book Club</h1>
+                <hr class="w-75">
+                <p id="bc-name">[Book Club Name]</p>
+                <p id="bc-book">Book: [Book Title by Book Author] || Book Not Yet Chosen</p>
+                <p id="bc-events">
+                    <a id="showCalendar" data-toggle="modal" data-target="#calendarModal">Show
+                        Calendar</a> | <a id="addMeeting" data-toggle="modal" data-target="#addMeetingModal">Add
+                        Meeting</a>
+                </p>
+                <!-- START Calendar Modal -->
+                <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="calendarModalLabel">
+                                    Calendar
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                            <div class="col-1">
-                                <button
-                                    type="submit"
-                                    id="nameGo"
-                                    class="bg-warning btn btn-lg"
-                                    disabled
-                                >
-                                    Go
+                            <div class="modal-body">
+                                <div id="calendar"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    Close
                                 </button>
                             </div>
                         </div>
-                    </form>
-
-                    <h3 class="mt-3">
-                        Or Select from One of the Existing Book Clubs on Our
-                        List
-                    </h3>
-                    <div class="dropdown">
-                        <button
-                            class="btn btn-success btn-block btn-lg dropdown-toggle"
-                            type="button"
-                            data-toggle="dropdown"
-                            id="bcMenu"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                            disabled
-                        >
-                            Find Your Book Club
-                        </button>
-                        <div
-                            class="dropdown-menu"
-                            aria-labelledby="bcMenu"
-                        ></div>
                     </div>
                 </div>
-                <div class="bc-area">
-                    <button
-                        class="btn btn-block btn-lg bg-success text-white"
-                        id="showCalendar"
-                        data-toggle="modal"
-                        data-target="#calendarModal"
-                    >
-                        Show Calendar
-                    </button>
+                <!-- END Calendar Modal -->
 
-                    <!-- Modal -->
-                    <div
-                        class="modal fade"
-                        id="calendarModal"
-                        tabindex="-1"
-                        role="dialog"
-                    >
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5
-                                        class="modal-title"
-                                        id="exampleModalLabel"
-                                    >
-                                        Calendar
-                                    </h5>
-                                    <button
-                                        type="button"
-                                        class="close"
-                                        data-dismiss="modal"
-                                        aria-label="Close"
-                                    >
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                <!-- START Add Meeting Modal -->
+                <div class="modal fade" id="addMeetingModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addMeetingLabel">
+                                    Add Meeting
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container">
+                                    <form>
+                                        <div class="form-group row">
+                                            <label for="eventDate" class="col-sm-1-12 col-form-label">Select
+                                                Date For Meeting: </label>
+                                            <div class="col-sm-1-12">
+                                                <input type="date" class="form-control" name="eventDate" id="eventDate"
+                                                    required>
+                                            </div>
+                                            <label for="eventTime" class="col-sm-1-12 col-form-label">Select
+                                                Time For Meeting: </label>
+                                            <div class="col-sm-1-12">
+                                                <input type="time" class="form-control" name="eventTime" id="eventTime"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="modal-body">
-                                    <div id="calendar"></div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button
-                                        type="button"
-                                        class="btn btn-secondary"
-                                        data-dismiss="modal"
-                                    >
-                                        Close
-                                    </button>
-                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="pushMeeting">
+                                    Add
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <div id="search" class="m-4">
-                        <h2>Search for Book</h2>
-                        <input
-                            type="text"
-                            id="searchBar"
-                            class="form-control"
-                        />
-                        <input
-                            type="submit"
-                            id="searchGo"
-                            class="form-control bg-danger text-white"
-                        />
-                        <div id="results"></div>
-                    </div>
-                    <h1>New York Times Best Sellers</h1>
+                </div>
+                <!-- END Add Meeting Modal -->
 
-                    <div
-                        id="nytCarousel"
-                        class="carousel slide"
-                        data-ride="carousel"
-                    >
-                        <ol class="carousel-indicators"></ol>
-                        <div class="carousel-inner"></div>
-                        <a
-                            class="carousel-control-prev"
-                            href="#nytCarousel"
-                            role="button"
-                            data-slide="prev"
-                        >
-                            <span
-                                class="carousel-control-prev-icon"
-                                aria-hidden="true"
-                            ></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a
-                            class="carousel-control-next"
-                            href="#nytCarousel"
-                            role="button"
-                            data-slide="next"
-                        >
-                            <span
-                                class="carousel-control-next-icon"
-                                aria-hidden="true"
-                            ></span>
-                            <span class="sr-only">Next</span>
-                        </a>
+                <div class="row">
+                    <div class="col-10">
+                        <div id="search" class="m-4">
+                            <input type="text" id="searchBar" class="form-control" placeholder="Search Book by Title" />
+                            <div class="input-underline"></div>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" id="searchGo" class="bg-warning btn btn-lg">
+                            Go
                     </div>
                 </div>
+                <div id="results"></div>
+                <p class="lead">Trending</p>
+                <div class="card-group" id="trending-books"></div>
             </div>
         </div>
+    </div>
 
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
-        <script src="assets/js/jquery.vide.min.js"></script>
-        <script src="assets/js/script.js"></script>
-    </body>
+    </div>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
+    <script src="assets/js/jquery.vide.min.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+
 </html>
