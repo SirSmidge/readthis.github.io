@@ -1,3 +1,4 @@
+
 // ! Initialize Firebase
 var config = {
     apiKey: 'AIzaSyCqb0IslXJ9cwRQJpdvlL49Nb5LRsOO6TM',
@@ -27,6 +28,7 @@ $('#nameGo').on('click', function (e) {
     $('.bc-area').toggle(400);
 });
 
+// ? add club name to firebase
 database.ref('/bookclubs').on('child_added', function (snap) {
     let data = snap.val();
     let key = snap.key;
@@ -41,11 +43,12 @@ database.ref('/bookclubs').on('child_added', function (snap) {
     $('.dropdown-menu').append(newAnchor);
 });
 
+// ? drop down menu for bookclubs
 $(document).on('click', '.dropdown-item', function () {
     console.log('dropdown item clicked');
     let name = $(this).text();
     let key = $(this).attr('data-key');
-    $('.club-logo').text(`${name}`);
+    $('.club-logo').prepend(`${name}`);
 
     $('#videobg').toggle(400);
     $('#mainContent').toggle(400);
@@ -62,13 +65,11 @@ $(document).on('click', '.dropdown-item', function () {
         } else {
             $("#bc-book").text(`You haven't chosen a book yet!`);
         }
-
     });
-
 });
 
-// ! Full Calendar
 
+// ! Full Calendar
 $('#showCalendar').on('click', function () {
     $('#calendar').html('');
     var calendarEl = document.getElementById('calendar');
@@ -175,7 +176,7 @@ $.ajax({
 });
 */
 
-$('#searchGo').on('click', function (event) {
+$('.search').on('click', function (event) {
     event.preventDefault();
     searchTitle = $('#searchBar')
         .val()
@@ -204,7 +205,7 @@ $('#searchGo').on('click', function (event) {
         (author = 'Not Found');
         !(typeof book.first_sentence == 'undefined') ?
         (first_sentence = book.first_sentence) :
-        (first_sentence = 'Not Found');
+        (first_sentence = '');
         !(typeof book.title == 'undefined') ?
         (title = book.title) :
         (title = 'Not Found');
@@ -220,11 +221,13 @@ $('#searchGo').on('click', function (event) {
         });
 
         // show on DOM
-        let bookDiv = $('<div>');
-        let coverimg = $('<img>').attr('src', cover);
-        let titleText = $('<h1>').text(title);
-        bookDiv.append(titleText, coverimg);
-        $('#results').html(bookDiv);
+        let coverImg = $('<img>').attr('src', cover);
+
+        $('#bookCover').html(coverImg);
+        $('#bookTitle').text(title);
+        $('#bookAuthor').text(author);
+        $('#firstSentence').text(first_sentence);
+
     });
 });
 

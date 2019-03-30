@@ -4,31 +4,48 @@ body,
 html {
     height: 100%;
 }
+
+main{
+    background-color: oldlace;
+}
 /* end html and body */
 
 /* landing page */
 
+#videobg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .input-underline {
     width: 100%;
     height: 1px;
-    background: rgb(189, 98, 98);
+    background: rgb(156, 4, 243);
     margin: 8px 0;
 }
 
-.form-control:focus {
+#nameInput:focus {
     background-color: transparent;
     border: none;
     box-shadow: none;
     outline: none;
 }
 
-.form-control:focus,
-.form-control::placeholder {
-    color: rgb(206, 82, 82);
+#nameInput:focus,
+#nameInput::placeholder {
+    color: #fff;
     text-shadow: 2px 2px 6px black;
 }
 
-button#nameGo{
+#nameInput {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    font-size: 30px;
+}
+
+button#nameGo {
     width: 70px;
     height: 70px;
     padding: 10px 16px;
@@ -46,25 +63,44 @@ button#bcMenu {
 
 /* end landing page */
 
+/* main content */
 
+/* nav */
+.navbar-default{
+    width: 100%
+}
+
+.container-fluid{
+    max-width: 960px;
+    margin: auto;
+}
+
+#mainContent {
+    display: none;
+    max-width: 960px;
+    margin: auto;
+}
+
+.container {
+    padding-top: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.club-logo {
+    padding: 0px;
+    font-size: 190%;
+    font-family: 'Handlee', cursive;
+}
+
+#showCalendar{
+    font-size: 170%;
+    font-family: 'Varela Round', sans-serif;
+}
 
 li {
     list-style: none;
-}
-
-.club-logo{
-    float: right;
-    padding: 0px;
-    font-size: 150%;
-    font-family:  'Slabo 27px', serif;
-}
-
-#cal {
-    justify-content: center;
-    padding-top: 15px;
-    display: flex;
-    font-family: 'Slabo 27px', serif;
-    font-size: 150%;
 }
 
 a,
@@ -73,45 +109,43 @@ a:hover {
     text-decoration: none;
     color: black;
 }
+/* end nav */
 
-#searchArea{
+#searchCol {
     width: 75%;
-    height: 400px;
+    padding: 10px;
+    margin: auto;
 }
 
-#leftBottom, #rightBottom{
+#searchBar {
+    display: inline;
+    border-radius: 5px 0px 0px 5px;
+}
+
+#searchIcon {
+    background-color: #fff;
+    border-radius: 0px 5px 5px 0px; 
+    padding: 0;
+    max-width: 24px;
+    max-height: 24px;
+}
+
+#resultsRow{
+    background-color: whitesmoke;
+    padding:10px;
+}
+
+
+#leftBottom,
+#rightBottom {
     margin: auto;
     padding: 10px;
     height: 50px;
 }
 
-#rightBottom {
+#rightBottom {}
 
-}
-
-.container {
-    padding-top: 3em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#mainContent {
-    display: none;
-}
-
-#videobg {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.bc-area {
-    display: none;
-}
-
-#bcName,
-.bc-area {
+#bcName {
     background: rgba(255, 255, 255, 0.3);
     padding: 2em;
     border-radius: 10px;
@@ -122,19 +156,6 @@ a:hover {
     text-shadow: 2px 2px 6px black;
 }
 
-.form-control {
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-    font-size: 40px;
-}
-
-.modal-dialog {
-    max-width: 2000px !important;
-    min-height: 80%;
-    color: black;
-}
-
 #trending-books .card {
     border: none;
     padding: 5px;
@@ -143,7 +164,7 @@ a:hover {
 }
 
 #trending-books .card:hover {
-    transform: scale(1.1);
+    transform: scale(1);
     transition: .5s all ease;
 }
 
@@ -151,3 +172,20 @@ img {
     max-width: 300px;
     max-height: 300px;
 }
+
+/* end main content */
+
+/* cal modal */
+
+#cal {
+    font-family: 'Slabo 27px', serif;
+    font-size: 120%;
+}
+
+.modal-dialog {
+    max-width: 900px !important;
+    min-height: 80%;
+    color: black;
+}
+
+/* end cal modal */

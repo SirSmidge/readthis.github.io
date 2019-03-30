@@ -63,13 +63,65 @@
         </div>
 
         <!-- Main Content -->
-        <div class='container' id='mainContent'>
-            <nav class="navbar navbar-light bg-light justify-content-between">
-                <a class="club-logo"></a>
-                <ul id="cal">
-                    <li><a id='showCalendar' data-toggle='modal' data-target='#calendarModal' ref="#">Calander</a></li>
-                </ul>
+        <div id='navBarBG'>
+            <nav class='navbar navbar-default'>
+                <div class='container-fluid'>
+                    <div class='navbar-header'>
+                        <li><a class="club-logo navbar-brand"></a></li>
+                    </div>
+                    <ul class='nav navbar-nav navbar-right'>
+                        <li><a id='showCalendar' data-toggle='modal' data-target='#calendarModal' ref="#">Calander</a>
+                        </li>
+                    </ul>
+                </div>
             </nav>
+        </div>
+
+        <main>
+            <!-- nain content -->
+            <div class='container' id='mainContent'>
+                <!-- Search Bar -->
+                <div id='searchCol' class='col'>
+                    <div class='mx-auto'>
+                        <form class="searchForm">
+                            <input id='searchBar' class="form-control form-control-sm ml-3 w-75" type="text"
+                                placeholder="Search" aria-label="Search">
+                            <i id='searchIcon' class="search" aria-hidden='false'><img src='assets/img/book.png' /></i>
+                        </form>
+                    </div>
+                </div>
+                <!-- end search form -->
+
+                <!-- ? results -->
+                <div class='container-fluid'>
+                    <div class='row' id='resultsRow'>
+                        <div class='col-*'>
+                            <div id='bookCover'></div>
+                        </div>
+                        <div class='col-8'>
+                            <h1 id='bookTitle'></h1>
+                            <h3 id='bookAuthor'></h3>
+                            <p id='firstSentence'></p>
+                        </div>
+                    </div>
+                <!-- ? end resuls -->
+
+                    <!-- ?The bottom two sections -->
+                    <div class='row'>
+                        <div class='col-md-5' id='leftBottom'>
+                            <h1>Forthcoming Events</h1>
+                            
+                        </div>
+
+                        <div class='col-md-5' id='rightBottom'>
+                            <p class="lead">Trending</p>
+                            <div class="card-group" id="trending-books"></div>
+                        </div>
+                    </div>
+                    <!-- ?end the botton sections -->
+                </div>
+            </div>
+            <!-- end main content -->
 
             <!-- START Calendar Modal -->
             <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog">
@@ -136,47 +188,20 @@
                     </div>
                 </div>
             </div>
-
             <!-- END Add Meeting Modal -->
-            <!-- Search Bar -->
-            <div class="row">
-                <div class='col'>
-                    <div class='mx-auto' id='searchArea'>
-                        <!-- Search form -->
-                        <form class="form-inline md-form form-sm active-cyan active-cyan-2 mt-2">
-                            <i class="fas fa-search" aria-hidden="true"></i>
-                            <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
-                                aria-label="Search">
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class='row'>
-                <div class='col'>
-                    <div id="results"></div>
-                </div>
-            </div>
-
-            <!-- The bottom two sections -->
-            <div class='row'>
-                <div class='col-md-5' id='leftBottom'>
-                    <p>Upcoming Events</p>
-                </div>
-
-                <div class='col-md-5' id='rightBottom'>
-                    <p class="lead">Trending</p>
-                    <div class="card-group" id="trending-books"></div>
-                </div>
-            </div>
-            <!-- End Search Bar -->
-        </div>
-
-
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
-        <script src="assets/js/jquery.vide.min.js"></script>
-        <script src="assets/js/script.js"></script>
+        </main>
     </body>
+    <footer>
+        <div>Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel
+                perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed
+            by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC
+                3.0 BY</a></div>
+    </footer>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
+    <script src="assets/js/jquery.vide.min.js"></script>
+    <script src="assets/js/script.js"></script>
 
 </html>
