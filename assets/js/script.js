@@ -77,9 +77,10 @@ $('#showCalendar').on('click', function () {
 
     activeBC.on('value', function (snap) {
         let data = snap.val();
-        !(typeof data.event == 'undefined') ?
-        (recalledEvents.push(data.event)) :
+        !(typeof data.events == 'undefined') ?
+        (recalledEvents = data.events) :
         (recalledEvents = []);
+        console.log(recalledEvents);
     });
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -89,34 +90,6 @@ $('#showCalendar').on('click', function () {
             left: 'title',
             center: 'addEventButton',
             right: 'dayGridMonth'
-        },
-        customButtons: {
-            addEventButton: {
-                text: 'add event...',
-                click: function () {
-                    var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-                    var date = new Date(dateStr + 'T00:00:00'); // will be in local time
-
-                    if (!isNaN(date.valueOf())) {
-                        // valid?
-                        // create event object
-                        let eventObj = {
-                            title: `Book Club Meeting!`,
-                            start: date,
-                            allDay: false
-                        };
-                        // add event to calendar
-                        calendar.addEvent(eventObj);
-
-                        // push event to firebase
-                        activeBC.push({
-                            events: eventObj
-                        });
-                    } else {
-                        alert('Invalid date.');
-                    }
-                }
-            }
         },
         events: recalledEvents
     });
@@ -128,6 +101,12 @@ $('#showCalendar').on('click', function () {
 });
 
 $(document).on("click", '#pushMeeting', function () {
+    let events = [];
+    activeBC.on("value", function (snap) {
+        let data = snap.val();
+        !(typeof data.events === "undefined") ?
+        events = data.events: events = []
+    });
     let date = $("#eventDate").val();
     let time = $("#eventTime").val();
     let event = new Date(date + `T${time}:00`);
@@ -135,11 +114,13 @@ $(document).on("click", '#pushMeeting', function () {
         title: `Book Club Meeting!`,
         start: event,
         allDay: false
-    };
+    }
+    events.push(eventObj);
+
 
     // push event to firebase
-    activeBC.push({
-        events: eventObj
+    activeBC.update({
+        events: events
     });
 });
 
