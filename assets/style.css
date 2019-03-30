@@ -34,22 +34,6 @@ a:hover {
 
 /* Parallax */
 
-.parallax {
-    /* The image used */
-    background-image: url("images/csabi-elter-70476-unsplash.jpg");
-    width: 100%;
-    /* Set a specific height */
-    height: 350px;
-
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-/* End Parallax */
-
 
 /* Main Content/Index */
 .searchResult{
