@@ -1,7 +1,51 @@
+/* html and body */
+
 body,
 html {
     height: 100%;
 }
+/* end html and body */
+
+/* landing page */
+
+.input-underline {
+    width: 100%;
+    height: 1px;
+    background: rgb(189, 98, 98);
+    margin: 8px 0;
+}
+
+.form-control:focus {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+.form-control:focus,
+.form-control::placeholder {
+    color: rgb(206, 82, 82);
+    text-shadow: 2px 2px 6px black;
+}
+
+button#nameGo{
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+    line-height: 1.33;
+}
+
+button#bcMenu {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    font-size: 24px;
+}
+
+/* end landing page */
+
 
 
 li {
@@ -32,8 +76,18 @@ a:hover {
 
 #searchArea{
     width: 75%;
+    height: 400px;
 }
 
+#leftBottom, #rightBottom{
+    margin: auto;
+    padding: 10px;
+    height: 50px;
+}
+
+#rightBottom {
+
+}
 
 .container {
     padding-top: 3em;
@@ -73,42 +127,6 @@ a:hover {
     border: none;
     box-shadow: none;
     font-size: 40px;
-}
-
-.input-underline {
-    width: 100%;
-    height: 1px;
-    background: rgb(189, 98, 98);
-    margin: 8px 0;
-}
-
-.form-control:focus {
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-    outline: none;
-}
-
-.form-control:focus,
-.form-control::placeholder {
-    color: rgb(206, 82, 82);
-    text-shadow: 2px 2px 6px black;
-}
-
-button#nameGo{
-    width: 70px;
-    height: 70px;
-    padding: 10px 16px;
-    border-radius: 35px;
-    font-size: 24px;
-    line-height: 1.33;
-}
-
-button#bcMenu {
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-    font-size: 24px;
 }
 
 .modal-dialog {
