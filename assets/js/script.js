@@ -23,7 +23,7 @@ $('#nameGo').on('click', function (e) {
         name: bcName
     }).key;
     activeBC = database.ref(`/bookclubs/${newBCKey}`);
-    $('#bcName').toggle(400);
+    $('#videobg').toggle(400);
     $('.bc-area').toggle(400);
 });
 
@@ -41,14 +41,16 @@ database.ref('/bookclubs').on('child_added', function (snap) {
     $('.dropdown-menu').append(newAnchor);
 });
 
+
+
 $(document).on('click', '.dropdown-item', function () {
     console.log('dropdown item clicked');
     let name = $(this).text();
     let key = $(this).attr('data-key');
     $('.navbar-brand').text(`Club: ${name} | Key: ${key}`);
 
-    $('#bcName').toggle(400);
-    $('.bc-area').toggle(400);
+    $('#videobg').toggle(400);
+    $('#mainContent').toggle(400);
 
     $("#bc-name").text(name);
     activeBC = database.ref(`/bookclubs/${key}`);
