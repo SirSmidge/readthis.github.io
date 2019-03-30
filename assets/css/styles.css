@@ -14,6 +14,12 @@ html {
     display: none;
 }
 
+#videobg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .bc-area {
     display: none;
 }
