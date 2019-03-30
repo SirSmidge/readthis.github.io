@@ -26,6 +26,7 @@ $('#nameGo').on('click', function () {
     console.log(currentBCRef.toString());
 });
 
+
 database.ref('/bookclubs').on('child_added', function (snap) {
     let data = snap.val();
     let key = snap.key;
@@ -42,14 +43,14 @@ database.ref('/bookclubs').on('child_added', function (snap) {
 
 $('#mainContent').toggle();
 
-$(document).on('click', '.dropdown-item', '#mainContent', function () {
+$(document).on('click', '.dropdown-item', function () {
     console.log('dropdown item clicked');
     let name = $(this).text();
     let key = $(this).attr('data-key');
     $('.navbar-brand').text(`${name}`);
-    $('#bcName').toggle(400);
-    $('.bc-area').toggle(400);
-    $('#mainContent').toggle(400);
+    $('#bcName').toggle(600);
+    $('.bc-area').toggle(600);
+    $('#mainContent').toggle(600);
     activeBC = database.ref(`/bookclubs/${key}`);
 });
 
@@ -241,10 +242,20 @@ $.ajax({
 
     // loop that prints top 10
     for (var i = 0; i < 10; i++) {
-        let bookDiv = $('<div>');
-        let cover = $('<img>').attr('src', data.results.books[i].book_image);
-        let title = $('<h1>').text(data.results.books[i].title);
-        bookDiv.append(title, cover);
-        $('#covers').append(bookDiv);
+        let bookDiv = $('<div>').addClass('carousel-item');
+        if (i == 0) bookDiv.addClass('active');
+        let cover = $('<img>')
+            .addClass('d-block w-100')
+            .attr('src', data.results.books[i].book_image);
+        let caption = $('<div>').addClass('carousel-caption');
+        let title = $('<h5>').text(data.results.books[i].title);
+        let author = $('<p>').text(data.results.books[0].author);
+        caption.append(title, author);
+        bookDiv.append(cover, caption);
+        let indicator = $('<li>').attr('data-target', '#nytCarousel');
+        indicator.attr('data-slide-to', i);
+        if (i == 0) indicator.addClass('active');
+        $('.carousel-indicators').append(indicator);
+        $('.carousel-inner').append(bookDiv);
     }
 });

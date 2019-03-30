@@ -79,6 +79,14 @@ a:hover {
     border-radius: 5px; 
 }
 
+.bcName {
+    max-width: 75%;
+}
+
+#nameGo {
+    color: #fff;
+}
+
 .bc-area {
     display: none;
 }
