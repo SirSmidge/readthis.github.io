@@ -3,6 +3,38 @@ html {
     height: 100%;
 }
 
+
+li {
+    list-style: none;
+}
+
+.club-logo{
+    float: right;
+    padding: 0px;
+    font-size: 150%;
+    font-family:  'Slabo 27px', serif;
+}
+
+#cal {
+    justify-content: center;
+    padding-top: 15px;
+    display: flex;
+    font-family: 'Slabo 27px', serif;
+    font-size: 150%;
+}
+
+a,
+a:hover {
+
+    text-decoration: none;
+    color: black;
+}
+
+#searchArea{
+    width: 75%;
+}
+
+
 .container {
     padding-top: 3em;
     display: flex;
@@ -10,7 +42,7 @@ html {
     justify-content: center;
 }
 
-#mainContent{
+#mainContent {
     display: none;
 }
 
@@ -63,8 +95,7 @@ html {
     text-shadow: 2px 2px 6px black;
 }
 
-button#nameGo,
-button#searchGo {
+button#nameGo{
     width: 70px;
     height: 70px;
     padding: 10px 16px;
@@ -83,12 +114,6 @@ button#bcMenu {
 .modal-dialog {
     max-width: 2000px !important;
     min-height: 80%;
-    color: black;
-}
-
-.carousel-caption {
-    background: rgba(255, 255, 255, 0.3);
-    font-size: .8em;
     color: black;
 }
 

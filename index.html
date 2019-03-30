@@ -5,6 +5,14 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>The Book Club</title>
+        <!-- reset css -->
+        <link rel="stylesheet" href="assets/css/reset.css">
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+            rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.5/css/mdb.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
         <script src="https://fullcalendar.io/releases/core/4.0.1/main.min.js"></script>
         <script src="https://fullcalendar.io/releases/interaction/4.0.1/main.min.js"></script>
         <script src="https://fullcalendar.io/releases/daygrid/4.0.1/main.min.js"></script>
@@ -12,7 +20,14 @@
         <link rel="stylesheet" href="assets/fonts/font-awesome.min.css" />
         <link href="https://fullcalendar.io/releases/core/4.0.1/main.min.css" rel="stylesheet" />
         <link href="https://fullcalendar.io/releases/daygrid/4.0.1/main.min.css" rel="stylesheet" />
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+            rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.5/css/mdb.min.css" rel="stylesheet">
+        <!-- local css -->
         <link rel="stylesheet" href="assets/css/styles.css" />
+
     </head>
 
     <body>
@@ -25,7 +40,7 @@
                             <div class="col-10">
                                 <label for="nameInput" class="sr-only">Book Club Name</label>
                                 <input type="text" id="nameInput" class="form-control mb-2"
-                                    placeholder="Enter Your Book Club's Name" />
+                                    placeholder="Your Book Club" />
                                 <div class="input-underline"></div>
                             </div>
                             <div class="col-1">
@@ -47,16 +62,15 @@
             </div>
         </div>
 
+        <!-- Main Content -->
         <div class='container' id='mainContent'>
-            <h1>Your Book Club</h1>
-            <hr class="w-75">
-            <p id="bc-name">[Book Club Name]</p>
-            <p id="bc-book">Book: [Book Title by Book Author] || Book Not Yet Chosen</p>
-            <p id="bc-events">
-                <a id="showCalendar" data-toggle="modal" data-target="#calendarModal">Show
-                    Calendar</a> | <a id="addMeeting" data-toggle="modal" data-target="#addMeetingModal">Add
-                    Meeting</a>
-            </p>
+            <nav class="navbar navbar-light bg-light justify-content-between">
+                <a class="club-logo"></a>
+                <ul id="cal">
+                    <li><a id='showCalendar' data-toggle='modal' data-target='#calendarModal' ref="#">Calander</a></li>
+                </ul>
+            </nav>
+
             <!-- START Calendar Modal -->
             <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
@@ -124,21 +138,22 @@
             </div>
 
             <!-- END Add Meeting Modal -->
+
+            <!-- Search Bar -->
             <div class="row">
-                <div class="col-10">
-                    <div id="search" class="m-4">
-                        <input type="text" id="searchBar" class="form-control" placeholder="Search Book by Title" />
-                        <div class="input-underline"></div>
-                    </div>
-                </div>
-                <div class="col-1">
-                    <button type="button" id="searchGo" class="bg-warning btn btn-lg">
-                        Go
+                <div class='mx-auto' id='searchArea'>
+                    <!-- Search form -->
+                    <form class="form-inline md-form form-sm active-cyan active-cyan-2 mt-2">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                        <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
+                            aria-label="Search">
+                    </form>
                 </div>
             </div>
             <div id="results"></div>
             <p class="lead">Trending</p>
             <div class="card-group" id="trending-books"></div>
+            <!-- End Search Bar -->
         </div>
 
 

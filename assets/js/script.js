@@ -18,7 +18,7 @@ $('#nameGo').on('click', function (e) {
         .val()
         .trim();
     $('#nameInput').val('');
-    $('.navbar-brand').text(bcName);
+    $('.club-logo').text(bcName);
     let newBCKey = database.ref('/bookclubs').push({
         name: bcName
     }).key;
@@ -41,13 +41,11 @@ database.ref('/bookclubs').on('child_added', function (snap) {
     $('.dropdown-menu').append(newAnchor);
 });
 
-
-
 $(document).on('click', '.dropdown-item', function () {
     console.log('dropdown item clicked');
     let name = $(this).text();
     let key = $(this).attr('data-key');
-    $('.navbar-brand').text(`Club: ${name} | Key: ${key}`);
+    $('.club-logo').text(`${name}`);
 
     $('#videobg').toggle(400);
     $('#mainContent').toggle(400);
