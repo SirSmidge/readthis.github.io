@@ -14,17 +14,31 @@ let database = firebase.database(),
 // * Grab Book club name
 $('#nameGo').on('click', function (e) {
     e.preventDefault();
-    let bcName = $('#nameInput')
+    let name = $('#nameInput')
         .val()
         .trim();
     $('#nameInput').val('');
-    $('.navbar-brand').text(bcName);
     let newBCKey = database.ref('/bookclubs').push({
-        name: bcName
+        name: name
     }).key;
     activeBC = database.ref(`/bookclubs/${newBCKey}`);
     $('#bcName').toggle(400);
     $('.bc-area').toggle(400);
+
+    $("#bc-name").text(name);
+    activeBC.on("value", function (snap) {
+        let data = snap.val();
+
+        let book = {};
+        if (!(typeof data.book === 'undefined')) {
+            book = data.book;
+            $("#bc-book").text(`Book: ${book.title} by ${book.author}`);
+        } else {
+            $("#bc-book").text(`You haven't chosen a book yet!`);
+        }
+
+    });
+
 });
 
 database.ref('/bookclubs').on('child_added', function (snap) {
@@ -80,7 +94,6 @@ $('#showCalendar').on('click', function () {
         !(typeof data.events == 'undefined') ?
         (recalledEvents = data.events) :
         (recalledEvents = []);
-        console.log(recalledEvents);
     });
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -175,61 +188,79 @@ $.ajax({
 });
 */
 
-$('#searchGo').on('click', function (event) {
-    event.preventDefault();
-    searchTitle = $('#searchBar')
-        .val()
-        .trim();
-    $('#searchBar').val('');
-    olSearch = `http://openlibrary.org/search.json?q=${searchTitle}`;
+$("#searchBar").on("keyup", function () {});
 
+$('#searchGo').on('click', function () {
+    let keyword = $("#searchBar").val();
+    let olQuery = `https://openlibrary.org/search.json?q=${keyword}`;
     $.ajax({
-        url: olSearch,
+        url: olQuery,
         method: 'GET'
-    }).then(function (data) {
+    }).done(function (data) {
         olData = JSON.parse(data);
-        book = olData.docs[0];
+        $("#results").html('');
+        $.each(olData.docs, function (i, item) {
+            console.log(item);
 
-        // create book object and push to firebase
-        !(typeof book.isbn == 'undefined') ?
-        (cover = `http://covers.openlibrary.org/b/isbn/${
-                  book.isbn[0]
+            // checks if cover exists
+            (typeof item.isbn != 'undefined') ?
+            (cover = `http://covers.openlibrary.org/b/isbn/${
+                  item.isbn[0]
               }-L.jpg`) :
-        (cover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`);
-        !(typeof book.title == 'undefined') ?
-        (title = book.title) :
-        (title = 'Not Found');
-        !(typeof book.author_name == 'undefined') ?
-        (author = book.author_name[0]) :
-        (author = 'Not Found');
-        !(typeof book.first_sentence == 'undefined') ?
-        (first_sentence = book.first_sentence) :
-        (first_sentence = 'Not Found');
-        !(typeof book.title == 'undefined') ?
-        (title = book.title) :
-        (title = 'Not Found');
+            (cover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`);
 
-        let bookObj = {
-            title: title,
-            author: author,
-            cover: cover,
-            first_sentence: first_sentence
-        };
-        activeBC.update({
-            book: bookObj
+            // checks cover is not an empty pixel
+            let resTest = new Image();
+            resTest.src = cover;
+            if (resTest.naturalWidth < 100) cover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`;
+
+            if (i < 5) {
+                console.log('card created')
+                createBSCard(cover, item.title, item.author_name, "#results")
+            }
         });
+    })
 
-        // show on DOM
-        let bookDiv = $('<div>');
-        let coverimg = $('<img>').attr('src', cover);
-        let titleText = $('<h1>').text(title);
-        bookDiv.append(titleText, coverimg);
-        $('#results').html(bookDiv);
-    });
+    // // create book object and push to firebase
+    // !(typeof book.isbn == 'undefined') ?
+    // (cover = `http://covers.openlibrary.org/b/isbn/${
+    //           book.isbn[0]
+    //       }-L.jpg`) :
+    // (cover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`);
+    // !(typeof book.title == 'undefined') ?
+    // (title = book.title) :
+    // (title = 'Not Found');
+    // !(typeof book.author_name == 'undefined') ?
+    // (author = book.author_name[0]) :
+    // (author = 'Not Found');
+    // !(typeof book.first_sentence == 'undefined') ?
+    // (first_sentence = book.first_sentence) :
+    // (first_sentence = 'Not Found');
+    // !(typeof book.title == 'undefined') ?
+    // (title = book.title) :
+    // (title = 'Not Found');
+
+    // let bookObj = {
+    //     title: title,
+    //     author: author,
+    //     cover: cover,
+    //     first_sentence: first_sentence
+    // };
+    // activeBC.update({
+    //     book: bookObj
+    // });
+    // console.log("you've updated your book!")
+
+    // // show on DOM
+    // let bookDiv = $('<div>');
+    // let coverimg = $('<img>').attr('src', cover);
+    // let titleText = $('<h1>').text(title);
+    // bookDiv.append(titleText, coverimg);
+    // $('#results').html(bookDiv);
 });
 
 // * Create Book Card Function
-function createBSCard(image, title, author) {
+function createBSCard(image, title, author, area) {
     // main card
     var card = $("<div>");
     card.attr("class", "card");
@@ -243,7 +274,7 @@ function createBSCard(image, title, author) {
     // Building the card
     card.append(cardImage);
     //Append to your div here
-    $("#trending-books").append(card);
+    $(area).append(card);
 }
 
 // * NYT BEST SELLERS
@@ -281,9 +312,23 @@ $.ajax({
 
     // loop that prints top 10
     for (var i = 0; i < 5; i++) {
-        createBSCard(data.results.books[i].book_image, data.results.books[i].title, data.results.books[0].author)
+        createBSCard(data.results.books[i].book_image, data.results.books[i].title, data.results.books[0].author, "#trending-books")
     }
 });
 
-/*
- */
+
+$(document).on("click", "#trending-books .card-image", function () {
+    let author = $(this).attr("data-author"),
+        cover = $(this).attr("src"),
+        title = $(this).attr("data-title");
+
+    let bookObj = {
+        title: title,
+        author: author,
+        cover: cover,
+    };
+    activeBC.update({
+        book: bookObj
+    });
+    console.log("you've updated your book!")
+})
