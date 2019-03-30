@@ -31,27 +31,28 @@
     </head>
 
     <body>
-
-        <div class='container' style="width: 100%; height: 1500px" data-vide-bg="assets/video/bg.mp4"
-        data-vide-options="loop: false, muted: true, position: 0% 0%" id="videobg">
-            <div class='row' style="display:flex;justify-content:center;align-items:center;">
-                <!-- Enter your book club name -->
-                <div id="bcName" class="m-5">
-                    <h3>Enter Your Book Club's Name Below:</h3>
-                    <input type="text" id="nameInput" class="form-control mb-3" />
-                    <div class='row'>
-                        <div class='col'>
-                            <button type="submit" id="nameGo" class="form-control peach-gradient mb-3">Add Your
-                                Club</button>
-                        </div>
-                        <div class='col'>
-                            <div class="dropdown">
-                                <button class="btn blue-gradient btn-block btn-lg dropdown-toggle form-control"
-                                    type="button" data-toggle="dropdown" id="bcMenu" aria-haspopup="true"
-                                    aria-expanded="false" style="margin: auto; padding:0;">
-                                    Check For Your Club
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="bcMenu"></div>
+        <div style="width: 100%; height: 1000px" data-vide-bg="../media/video/bg.mp4"
+            data-vide-options="loop: false, muted: true, position: 0% 0%" id="videobg">
+            <div class='container'>
+                <div class='row' style="display:flex;justify-content:center;align-items:center;">
+                    <!-- Enter your book club name -->
+                    <div id="bcName" class="m-5">
+                        <h3>Enter Your Book Club's Name Below:</h3>
+                        <input type="text" id="nameInput" class="form-control mb-3" />
+                        <div class='row'>
+                            <div class='col'>
+                                <button type="submit" id="nameGo" class="form-control peach-gradient mb-3">Add Your
+                                    Club</button>
+                            </div>
+                            <div class='col'>
+                                <div class="dropdown">
+                                    <button class="btn blue-gradient btn-block btn-lg dropdown-toggle form-control"
+                                        type="button" data-toggle="dropdown" id="bcMenu" aria-haspopup="true"
+                                        aria-expanded="false" style="margin: auto; padding:0;">
+                                        Check For Your Club
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="bcMenu"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -153,7 +154,7 @@
     </main>
     <!-- jquery ajax -->
     <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
-    <script src="assets/js/jquery.vide.min.js"></script>
+    <script src="assets/jquery.vide.mini.js"></script>
     <script src='assets/logic.js'></script>
 
 </html>

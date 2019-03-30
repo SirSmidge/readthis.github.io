@@ -5,11 +5,8 @@ html {
     margin: auto;
 }
 
-body {
-    padding: 0;
-    margin: auto;
+#mainContent{
     max-width: 960px;
-    min-height: 100%;
 }
 
 .navbar {

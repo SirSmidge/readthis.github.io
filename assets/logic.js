@@ -48,7 +48,7 @@ $(document).on('click', '.dropdown-item', function () {
     let name = $(this).text();
     let key = $(this).attr('data-key');
     $('.navbar-brand').text(`${name}`);
-    $('#bcName').toggle(600);
+    $('#videobg').toggle(600);
     $('.bc-area').toggle(600);
     $('#mainContent').toggle(600);
     activeBC = database.ref(`/bookclubs/${key}`);
