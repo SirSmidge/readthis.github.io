@@ -31,46 +31,55 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-expand-lg">
-            <a class="navbar-brand" href="#">Book Clubs</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" id="showCalendar" data-toggle="modal" data-target="#calendarModal"
-                            href="#">Calender</a>
-                    </li>
-                </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control" id='searchBar' type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn aqua-gradient" id='searchGo' type="submit">Search</button>
-                </form>
-            </div>
-        </nav>
-        <!-- End nav -->
-
-
-
-        <!-- Enter your book club name -->
-        <div id="bcName" class="m-5">
-            <h3>Enter Your Book Club's Name Below:</h3>
-            <input type="text" id="nameInput" class="form-control mb-2" />
-            <button type="submit" id="nameGo" class="form-control peach-gradient mb-3">Add Your Club</button>
-            <div class="dropdown">
-                <button class="btn blue-gradient btn-block btn-lg dropdown-toggle" type="button" data-toggle="dropdown"
-                    id="bcMenu" aria-haspopup="true" aria-expanded="false">
-                    Check For Your Club
-                </button>
-                <div class="dropdown-menu" aria-labelledby="bcMenu"></div>
+        <div class='container, enterBookClub '>
+            <!-- Enter your book club name -->
+            <div id="bcName" class="m-5">
+                <h3>Enter Your Book Club's Name Below:</h3>
+                <input type="text" id="nameInput" class="form-control mb-3" />
+                <div class='row'>
+                    <div class='col'>
+                        <button type="submit" id="nameGo" class="form-control peach-gradient mb-3">Add Your Club</button>
+                    </div>
+                    <div class='col'>
+                        <div class="dropdown">
+                            <button class="btn blue-gradient btn-block btn-lg dropdown-toggle form-control" type="button"
+                                data-toggle="dropdown" id="bcMenu" aria-haspopup="true" aria-expanded="false" style="margin: auto; padding:0;">
+                                Check For Your Club
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="bcMenu"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- The main content -->
         <main id='mainContent'>
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="#">Book Clubs</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" id="showCalendar" data-toggle="modal" data-target="#calendarModal"
+                                href="#">Calender</a>
+                        </li>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control" id='searchBar' type="search" placeholder="Search"
+                            aria-label="Search">
+                        <button class="btn aqua-gradient" id='searchGo' type="submit">Search</button>
+                    </form>
+                </div>
+            </nav>
+            <!-- End nav -->
+
             <!--  the parallax stuff -->
             <!-- <div class='parallax'></div> -->
             <div class='row'>
@@ -101,31 +110,31 @@
                     </div>
                 </div>
             </div>
-        </main>
 
-        <!-- modal cal -->
-        <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
-                            Calendar
-                        </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="calendar"></div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                            Close
-                        </button>
+
+            <!-- modal cal -->
+            <div class="modal fade" id="calendarModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Calendar
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="calendar"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     </body>
 
     <footer class='footer'>
@@ -136,7 +145,7 @@
             </ul>
         </div>
     </footer>
-
+    </main>
     <!-- jquery ajax -->
     <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
     <script src='assets/logic.js'></script>
