@@ -5,7 +5,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
-    <title>BookClub</title>
+    <title>read.this() &mdash; A simple tool for awesome book clubs</title>
     <!-- reset.css -->
     <link rel='stylesheet' href='assets/reset.css'>
     <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css'>
@@ -35,13 +35,19 @@
         <div class='container'>
             <div class='row'>
                 <!-- Enter your book club name -->
-                <div id='welcomeArea'>
+                <div class="card" id='welcomeArea'>
+                    <h1 class="display-1 text-shadow">
+                        <span class="serif text-white">read</span><span class="blue-text">.</span><span
+                            class="lato red-text">this()</span>
+                    </h1>
+                    <small class="text-right text-white text-shadow" id="tagline">A simple tool for awesome book
+                        clubs.</small>
                     <h3>Enter Your Book Club's Name Below:</h3>
                     <input type='text' id='nameInput' class='form-control' />
                     <div class='row'>
                         <div class='col'>
-                            <button type='submit' id='nameGo' class='form-control peach-gradient'>Add Your
-                                Club</button>
+                            <button type='submit' id='nameGo' class='form-control peach-gradient pointer'>ADD YOUR
+                                CLUB</button>
                         </div>
                         <div class='col'>
                             <div class='dropdown'>
@@ -60,37 +66,21 @@
     </div>
 
     <!-- The main content -->
+    <nav class='navbar navbar-expand-lg'>
+        <a class='navbar-brand' href='index.html'>
+            <h1 class="h1-responsive text-shadow">
+                <span class="serif text-white">read</span><span class="blue-text">.</span><span
+                    class="lato red-text">this()</span>
+            </h1>
+        </a>
+    </nav>
     <main id='mainContent'>
-        <!-- Start nav 
-        <nav class='navbar navbar-expand-lg'>
-            <a class='navbar-brand' href='#'>Book Clubs</a>
-            <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarSupportedContent'
-                aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'>
-                <span class='navbar-toggler-icon'></span>
-            </button>
-
-            <div class='collapse navbar-collapse' id='navbarSupportedContent'>
-                <ul class='navbar-nav mr-auto'>
-                    <li class='nav-item active'>
-                        <a class='nav-link' id='showCalendar' data-toggle='modal' data-target='#calendarModal'
-                            href='#'>Calender</a>
-                    </li>
-                </ul>
-                <form class='form-inline my-2 my-lg-0'>
-                    <input class='form-control' id='searchBar' type='search' placeholder='Search' aria-label='Search'>
-                    <button class='btn aqua-gradient' id='searchGo' type='submit'>Search</button>
-                </form>
-            </div>
-        </nav>
-        End nav -->
-
         <div class='container'>
             <div class="row">
-                <div class="col-9">
+                <div class="col-12 col-md-9">
                     <h3 id='bcName' class='my-3'></h3>
 
                     <!-- Book Info -->
-                    <a name="currentbook"></a>
                     <div class='card' id='bookArea'>
                         <div class='row'>
                             <div class='col'>
@@ -118,42 +108,19 @@
                                     Search</a>
                                 <div class="my-3" id="results"></div>
                                 <h3 class="card-title h3-responsive pt-3 mb-5 font-bold">Trending Titles</h3>
-                                <div id="trendingBooks"></div>
+                                <div id="trendingBooks1" class="py-2"></div>
+                                <div id="trendingBooks2" class="py-2"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-3">
+                <div class="col-12 col-md-3">
                     <h2>Calendar</h2>
                     <button id='addEvent' data-toggle='modal' data-target='#eventModal' href='#'
                         class='btn blue-gradient btn-block btn-lg my-3'>Add Meeting</button>
-                    <div id='calendar'></div>
-                </div>
-            </div>
-
-            <!-- Modals -->
-
-            <!-- modal: cal -->
-            <div class='modal fade' id='calendarModal' tabindex='-1' role='dialog'>
-                <div class='modal-dialog modal-fluid' role='document'>
-                    <div class='modal-content'>
-                        <div class='modal-header'>
-                            <h5 class='modal-title' id='calendarModalLabel'>
-                                Calendar
-                            </h5>
-                            <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-                                <span aria-hidden='true'>&times;</span>
-                            </button>
-                        </div>
-                        <div class='modal-body'>
-                            <div id='cccalendar'></div>
-                        </div>
-                        <div class='modal-footer'>
-                            <button type='button' class='btn btn-secondary' data-dismiss='modal'>
-                                Close
-                            </button>
-                        </div>
+                    <div id="calendarWrapper">
+                        <div id='calendar'></div>
                     </div>
                 </div>
             </div>

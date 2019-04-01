@@ -1,11 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300|Playfair+Display:900i');
+
 html {
     height: 100%;
     position: relative;
     top: -8px;
 }
 
-.italic {
+.lato {
+    font-family: 'Lato',
+        sans-serif;
+    font-weight: 300;
+}
+
+.serif {
+    font-family: 'Playfair Display',
+        serif;
+    font-weight: 900;
     font-style: italic;
+}
+
+.text-shadow {
+    text-shadow: 2px 2px 4px black;
+}
+
+.pointer:hover {
+    cursor: pointer;
+    color: black !important;
 }
 
 .card {
@@ -37,10 +57,19 @@ html {
     text-shadow: 2px 2px 4px black;
 }
 
+#tagline {
+    margin-top: -15px;
+    margin-bottom: 10px;
+}
+
 #nameGo {
     border: none;
 }
 
+.navbar {
+    box-shadow: none;
+    margin-top: .5rem !important;
+}
 
 #mainContent {
     max-width: 960px;
@@ -48,9 +77,14 @@ html {
     margin: 2rem auto;
 }
 
+#calendarWrapper {
+    min-height: 80vh;
+}
+
 /* Book Cover Styles */
 
-#trendingBooks,
+#trendingBooks1,
+#trendingBooks2,
 #results {
     display: flex;
     justify-content: space-around;

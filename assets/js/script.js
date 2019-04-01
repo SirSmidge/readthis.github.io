@@ -104,6 +104,7 @@ $('#nameGo').on('click', function (e) {
     // ! switch view
     $('#videoBg').toggle(400);
     $('#mainContent').toggle(400);
+    $(".navbar").addClass("fixed-top")
 
     // ! update bookclub info on page
     $('#bcName').text(`Welcome, ${name}`);
@@ -139,6 +140,7 @@ $(document).on('click', '.dropdown-item', function () {
     // ! switch view
     $('#videoBg').toggle(400);
     $('#mainContent').toggle(400);
+    $(".navbar").addClass("fixed-top")
 
     $('#bcName').text(`Welcome back, ${name}`);
     activeBC = database.ref(`/bookclubs/${key}`);
@@ -298,7 +300,8 @@ function createBSCard(image, title, author, area) {
     card.attr("title", `<em>${title}</em> by ${author}`)
     // Card Anchor
     var cardAnchor = $("<a>");
-    cardAnchor.attr("href", "#currentbook");
+    cardAnchor.attr("href", "#bcName");
+    cardAnchor.addClass("sliding-link");
     // Card Image
     var cardImage = $("<img>")
     cardImage.attr("class", "card-image");
@@ -345,9 +348,12 @@ $.ajax({
     console.log(data.results.books[0].buy_links[0].url);
     */
 
-    // loop that prints top 10
+    // loop that prints trending books
     for (var i = 0; i < 5; i++) {
-        createBSCard(data.results.books[i].book_image, data.results.books[i].title, data.results.books[i].author, "#trendingBooks")
+        createBSCard(data.results.books[i].book_image, data.results.books[i].title, data.results.books[i].author, "#trendingBooks1")
+    }
+    for (var i = 5; i < 10; i++) {
+        createBSCard(data.results.books[i].book_image, data.results.books[i].title, data.results.books[i].author, "#trendingBooks2")
     }
     $('[data-toggle="tooltip"]').tooltip();
 });
@@ -368,3 +374,12 @@ $(document).on("click", ".card-image", function () {
     });
     console.log("you've updated your book!")
 })
+
+// SCROLL-TO ANIMATION
+$(document).on("click", ".sliding-link", function (e) {
+    e.preventDefault();
+    var aid = $(this).attr("href");
+    $('html,body').animate({
+        scrollTop: $(aid).offset().top
+    }, 'slow');
+});
