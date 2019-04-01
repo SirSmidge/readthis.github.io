@@ -8,32 +8,71 @@ var config = {
     messagingSenderId: '422544061449'
 };
 firebase.initializeApp(config);
+
 let database = firebase.database(),
     activeBC = '';
 
-// * Grab Book club name
+// ! Full Calendar
 
-$('#nameGo').on('click', function() {
-    // ! #nameGo is a button
-    let bcName = $('#nameInput')
-        .val()
-        .trim();
-    // ! #nameInput is a text input
-    $('#nameInput').val('');
-    $('.navbar-brand').text(bcName);
-    // ! updating .navbar-brand isn't necessary
-    // ! I put it there for visual feedback that firebase was working
-    let newBCKey = database.ref('/bookclubs').push({
-        name: bcName
-    }).key;
-    // ! this returns the firebase key for the newly pushed bookclub
-    activeBC = database.ref(`/bookclubs/${newBCKey}`);
-    // ! this creates a variable to the active (new) book club reference on firebase
-    // TODO need to toggle the bcName and bc-area switcher when user inputs a new bookclub
+const calendarFunc = () => {
+    console.log('calendar function ran')
+    var recalledEvents = [];
+
+    activeBC.on('value', function (snap) {
+        let data = snap.val();
+        !(typeof data.events == 'undefined') ?
+        (recalledEvents = data.events) :
+        (recalledEvents = []);
+    });
+    $('#calendar').html('');
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: ['list'],
+        height: 'parent',
+        timeZone: 'UTC',
+        defaultView: 'listMonth',
+        header: {
+            left: '',
+            center: 'title',
+            right: 'prev,next'
+        },
+        events: recalledEvents
+    });
+    calendar.render();
+    setTimeout(function () {
+        calendar.changeView('listMonth');
+    }, 500);
+}
+
+$(document).on("click", '#pushMeeting', function () {
+    let events = [];
+    activeBC.on("value", function (snap) {
+        let data = snap.val();
+        !(typeof data.events === "undefined") ?
+        events = data.events: events = []
+    });
+    let date = $("#eventDate").val();
+    let time = $("#eventTime").val();
+    let event = new Date(date + `T${time}:00Z`);
+    let eventObj = {
+        title: `Book Club Meeting!`,
+        start: event,
+        allDay: false
+    }
+    events.push(eventObj);
+
+
+    // push event to firebase
+    activeBC.update({
+        events: events
+    });
+    setTimeout(function () {
+        calendarFunc();
+    }, 500);
 });
 
-//! populate dropdown menu with existing bookclubs from db
-database.ref('/bookclubs').on('child_added', function(snap) {
+database.ref('/bookclubs').on('child_added', function (snap) {
     let data = snap.val();
     let key = snap.key;
     let name = data.name;
@@ -47,105 +86,91 @@ database.ref('/bookclubs').on('child_added', function(snap) {
     $('.dropdown-menu').append(newAnchor);
 });
 
-// ! when bookclub from dropdown is clicked...
-$(document).on('click', '.dropdown-item', function() {
+// * Grab Book club name
+$('#nameGo').on('click', function (e) {
+    e.preventDefault();
+    let name = $('#nameInput')
+        .val()
+        .trim();
+    $('#nameInput').val('');
+
+    // ! set activeBC
+    let key = database.ref('/bookclubs').push({
+        name: name
+    }).key;
+    activeBC = database.ref(`/bookclubs/${key}`);
+
+    // ! switch view
+    $('#videoBg').toggle(400);
+    $('#mainContent').toggle(400);
+
+    // ! update bookclub info on page
+    $('#bcName').text(`Welcome, ${name}`);
+    activeBC.on("value", function (snap) {
+        let data = snap.val();
+
+        let book = {};
+        if (!(typeof data.book === 'undefined')) {
+            book = data.book;
+            $("#bcBookCover").attr("src", `${book.cover}`)
+            $("#bcBookTitle").text(`Book: ${book.title}`);
+            $("#bcBookAuthor").text(`by ${book.author}`)
+        } else {
+            $("#bcBook").text(`You haven t chosen a book yet! Search for one below.`);
+        }
+
+    });
+
+    calendarFunc();
+});
+
+$(document).on('click', '.dropdown-item', function () {
     let name = $(this).text();
     let key = $(this).attr('data-key');
-    // ! grab bc's key I stored in a data- attribute
 
-    $('.navbar-brand').text(`Club: ${name} | Key: ${key}`);
-    // ! we don't need to update .navbar-brand, this was just to test
-    // ! but we can have a message somewhere that displays their info, etc.
+    // ! switch view
+    $('#videoBg').toggle(400);
+    $('#mainContent').toggle(400);
 
-    //! this is is the ui/screen toggle switcher thing
-    $('#bcName').toggle(400);
-    $('.bc-area').toggle(400);
-
-    // ! update the activeBC reference to the clicked bookclub's key.
+    $('#bcName').text(`Welcome back, ${name}`);
     activeBC = database.ref(`/bookclubs/${key}`);
-});
-
-// ! Full Calendar stuff
-
-// ! when #showCalendar is clicked, dynamically render calendar
-$('#showCalendar').on('click', function() {
-    // ! empty the div to prevent multiple calendars
-    $('#calendar').html('');
-
-    // ! the below is fullCalendar.io functions/syntax
-    var calendarEl = document.getElementById('calendar');
-
-    var recalledEvent = {};
-
-    // ! looks for existing events on firebase
-    activeBC.on('value', function(snap) {
+    activeBC.on("value", function (snap) {
         let data = snap.val();
-        !(typeof data.event == 'undefined')
-            ? (recalledEvent = data.event)
-            : (recalledEvent = {});
-        // ! above: basically, if event exists: assign it to recalledEvent, else: return an empty object
+
+        let book = {};
+        if (!(typeof data.book === 'undefined')) {
+            book = data.book;
+            $("#bcBookCover").attr("src", `${book.cover}`)
+            $("#bcBookTitle").text(`${book.title}`);
+            $("#bcBookAuthor").text(`by ${book.author}`)
+        } else {
+            $("#bookArea").html(`You haven't chosen a book yet! Search for one below.`);
+        }
+
     });
-
-    // ! the below is the part that creates the calendar.
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: ['interaction', 'dayGrid'],
-        defaultView: 'dayGridMonth',
-        header: {
-            left: 'title',
-            center: 'addEventButton',
-            right: 'dayGridMonth'
-        },
-        customButtons: {
-            addEventButton: {
-                text: 'add event...',
-                click: function() {
-                    var dateStr = prompt('Enter a date in YYYY-MM-DD format');
-                    var date = new Date(dateStr + 'T18:00:00'); // will be in local time
-
-                    if (!isNaN(date.valueOf())) {
-                        // valid?
-                        // create event object
-                        let eventObj = {
-                            title: `Book Club Meeting!`,
-                            start: date,
-                            allDay: false
-                        };
-                        // add event to calendar
-                        calendar.addEvent(eventObj);
-
-                        // push event to firebase
-                        activeBC.update({
-                            event: eventObj
-                        });
-                    } else {
-                        alert('Invalid date.');
-                    }
-                }
-            }
-        },
-        events: [recalledEvent]
-    });
-    // ! line below: unction that makes it all work
-    calendar.render();
-
-    // ! my little hack to make it work in our modal
-    setTimeout(function() {
-        console.log(`I'm in the Timeout!`);
-        calendar.changeView('dayGridMonth');
-    }, 500);
+    calendarFunc();
 });
+
+/* 
+
+Add Meeting function notes:
+
+time value = 24H:MM.
+push to FullCalendar like `T${time.val()}:00`
+
+
+*/
 
 // * OPEN LIBRARY SEARCH
 
-// ! these are my variables for the book search engine
-let searchTitle = '',
-    olSearch = `http://openlibrary.org/search.json?q=${searchTitle}`,
-    cover = '',
+let searchTitle = '';
+let olSearch = `http://openlibrary.org/search.json?q=${searchTitle}`;
+
+let cover = '',
     title = '',
     author = '',
     first_sentence = '';
 
-// ! the commented shit below is my openlib object cheat sheet
 /* 
 $.ajax({
     url: olSearch,
@@ -177,67 +202,101 @@ $.ajax({
 });
 */
 
-// ! grabbing shit from the search input for our ajax call
-$('#searchGo').on('click', function(event) {
-    event.preventDefault();
-    searchTitle = $('#searchBar')
-        .val()
-        .trim();
-    $('#searchBar').val('');
 
-    // ! form the query
-    olSearch = `http://openlibrary.org/search.json?q=${searchTitle}`;
-
+$('#searchGo').on('click', function () {
+    let keyword = $("#bookSearch").val();
+    let olQuery = `https://openlibrary.org/search.json?q=${keyword}`;
     $.ajax({
-        url: olSearch,
+        url: olQuery,
         method: 'GET'
-    }).then(function(data) {
+    }).done(function (data) {
         olData = JSON.parse(data);
-        book = olData.docs[0];
+        $("#results").html('');
+        $.each(olData.docs, function (i, item) {
+            console.log(item);
 
-        // ! create book object and push to firebase
-        // ! lots of type validation because if we return undefined, everything breaks and we all die
-        !(typeof book.isbn == 'undefined')
-            ? (cover = `http://covers.openlibrary.org/b/isbn/${
-                  book.isbn[0]
-              }-L.jpg`)
-            : (cover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`);
-        // ! the above link is a default 'book not pictured' image. i'm hotlinking it right now
-        // ! we should save it and add it to our image assets.
-        !(typeof book.title == 'undefined')
-            ? (title = book.title)
-            : (title = 'Not Found');
-        !(typeof book.author_name == 'undefined')
-            ? (author = book.author_name[0])
-            : (author = 'Not Found');
-        !(typeof book.first_sentence == 'undefined')
-            ? (first_sentence = book.first_sentence)
-            : (first_sentence = 'Not Found');
-        !(typeof book.title == 'undefined')
-            ? (title = book.title)
-            : (title = 'Not Found');
+            // checks if cover exists
+            (typeof item.isbn != 'undefined') ?
+            (cover = `http://covers.openlibrary.org/b/isbn/${
+                  item.isbn[0]
+              }-L.jpg`) :
+            (cover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`);
 
-        // ! create the book object
-        let bookObj = {
-            title: title,
-            author: author,
-            cover: cover,
-            first_sentence: first_sentence
-        };
+            // checks cover is not an empty pixel
+            let resTest = new Image();
+            resTest.src = cover;
+            if (resTest.naturalWidth < 100) cover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`;
 
-        // ! push it to firebase
-        activeBC.update({
-            book: bookObj
+            if (i < 5) {
+                createBSCard(cover, item.title, item.author_name, "#results")
+            }
+            $('[data-toggle="tooltip"]').tooltip();
         });
+    })
 
-        // ! show on DOM, but this will be changed to better fit our UI and display more information.
-        let bookDiv = $('<div>');
-        let coverimg = $('<img>').attr('src', cover);
-        let titleText = $('<h1>').text(title);
-        bookDiv.append(titleText, coverimg);
-        $('#results').html(bookDiv);
-    });
+    // // create book object and push to firebase
+    // !(typeof book.isbn == 'undefined') ?
+    // (cover = `http://covers.openlibrary.org/b/isbn/${
+    //           book.isbn[0]
+    //       }-L.jpg`) :
+    // (cover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`);
+    // !(typeof book.title == 'undefined') ?
+    // (title = book.title) :
+    // (title = 'Not Found');
+    // !(typeof book.author_name == 'undefined') ?
+    // (author = book.author_name[0]) :
+    // (author = 'Not Found');
+    // !(typeof book.first_sentence == 'undefined') ?
+    // (first_sentence = book.first_sentence) :
+    // (first_sentence = 'Not Found');
+    // !(typeof book.title == 'undefined') ?
+    // (title = book.title) :
+    // (title = 'Not Found');
+
+    // let bookObj = {
+    //     title: title,
+    //     author: author,
+    //     cover: cover,
+    //     first_sentence: first_sentence
+    // };
+    // activeBC.update({
+    //     book: bookObj
+    // });
+    // console.log("you've updated your book!")
+
+    // // show on DOM
+    // let bookDiv = $('<div>');
+    // let coverimg = $('<img>').attr('src', cover);
+    // let titleText = $('<h1>').text(title);
+    // bookDiv.append(titleText, coverimg);
+    // $('#results').html(bookDiv);
 });
+
+// * Create Book Card Function
+function createBSCard(image, title, author, area) {
+    // main card
+    var card = $("<div>");
+    card.attr("class", "card")
+    card.attr("class", "trending")
+    card.attr("data-name", title)
+    card.attr("data-toggle", "tooltip")
+    card.attr("data-html", "true")
+    card.attr("title", `<em>${title}</em> by ${author}`)
+    // Card Anchor
+    var cardAnchor = $("<a>");
+    cardAnchor.attr("href", "#currentbook");
+    // Card Image
+    var cardImage = $("<img>")
+    cardImage.attr("class", "card-image");
+    cardImage.attr("src", image);
+    cardImage.attr("data-title", title);
+    cardImage.attr("data-author", author);
+    // Building the card
+    cardAnchor.append(cardImage);
+    card.append(cardAnchor);
+    //Append to your div here
+    $(area).append(card);
+}
 
 // * NYT BEST SELLERS
 let nytKey = '2cLMsa04TtSGMPHaBnBBRjtXNhjTHcFp';
@@ -246,8 +305,7 @@ let nytQuery = `https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fic
 $.ajax({
     url: nytQuery,
     method: 'GET'
-}).then(function(data) {
-    // ! nyt object cheatsheat
+}).then(function (data) {
     /*
     console.log('NYT Bestsellers Data');
     console.log(data);
@@ -273,22 +331,26 @@ $.ajax({
     console.log(data.results.books[0].buy_links[0].url);
     */
 
-    // ! loop that prints top 10 into carousel
-    for (var i = 0; i < 10; i++) {
-        let bookDiv = $('<div>').addClass('carousel-item');
-        if (i == 0) bookDiv.addClass('active');
-        let cover = $('<img>')
-            .addClass('d-block w-100')
-            .attr('src', data.results.books[i].book_image);
-        let caption = $('<div>').addClass('carousel-caption');
-        let title = $('<h5>').text(data.results.books[i].title);
-        let author = $('<p>').text(data.results.books[0].author);
-        caption.append(title, author);
-        bookDiv.append(cover, caption);
-        let indicator = $('<li>').attr('data-target', '#nytCarousel');
-        indicator.attr('data-slide-to', i);
-        if (i == 0) indicator.addClass('active');
-        $('.carousel-indicators').append(indicator);
-        $('.carousel-inner').append(bookDiv);
+    // loop that prints top 10
+    for (var i = 0; i < 5; i++) {
+        createBSCard(data.results.books[i].book_image, data.results.books[i].title, data.results.books[i].author, "#trendingBooks")
     }
+    $('[data-toggle="tooltip"]').tooltip();
 });
+
+
+$(document).on("click", ".card-image", function () {
+    let author = $(this).attr("data-author"),
+        cover = $(this).attr("src"),
+        title = $(this).attr("data-title");
+
+    let bookObj = {
+        title: title,
+        author: author,
+        cover: cover,
+    };
+    activeBC.update({
+        book: bookObj
+    });
+    console.log("you've updated your book!")
+})
