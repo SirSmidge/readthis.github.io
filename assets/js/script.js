@@ -317,7 +317,7 @@ $.ajax({
 });
 
 
-$(document).on("click", "#trending-books .card-image", function () {
+$(document).on("click", ".card-image", function () {
     let author = $(this).attr("data-author"),
         cover = $(this).attr("src"),
         title = $(this).attr("data-title");
