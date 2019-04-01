@@ -2,7 +2,8 @@
 
 body,
 html {
-    height: 100%;
+    min-width: 100vh;
+    min-height: 100vh;
 }
 
 main{
@@ -23,6 +24,17 @@ main{
     height: 1px;
     background: rgb(156, 4, 243);
     margin: 8px 0;
+}
+
+#bcName {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 2em;
+    border-radius: 10px;
+    color: blue;
+}
+
+#bcName h3 {
+    text-shadow: 2px 2px 6px black;
 }
 
 #nameInput:focus {
@@ -63,8 +75,8 @@ button#bcMenu {
 
 /* end landing page */
 
-/* main content */
 
+/* main content */
 /* nav */
 .navbar-default{
     width: 100%
@@ -111,6 +123,7 @@ a:hover {
 }
 /* end nav */
 
+/* search col */
 #searchCol {
     width: 75%;
     padding: 10px;
@@ -129,33 +142,28 @@ a:hover {
     max-width: 24px;
     max-height: 24px;
 }
+/* End search col */
 
+
+/* Results */
 #resultsRow{
     background-color: whitesmoke;
     padding:10px;
 }
+/* End Results */
 
 
+/* Bottom two cols */
 #leftBottom,
 #rightBottom {
+    height: 200px !important;
+    width: 100% !important;
     margin: auto;
     padding: 10px;
-    height: 50px;
 }
 
-#rightBottom {}
 
-#bcName {
-    background: rgba(255, 255, 255, 0.3);
-    padding: 2em;
-    border-radius: 10px;
-    color: blue;
-}
-
-#bcName h3 {
-    text-shadow: 2px 2px 6px black;
-}
-
+/* right hand col */
 #trending-books .card {
     border: none;
     padding: 5px;
@@ -169,23 +177,21 @@ a:hover {
 }
 
 img {
-    max-width: 300px;
-    max-height: 300px;
+    max-height: 100px;
+    max-width: auto;
 }
-
+/* End bottom cols */
 /* end main content */
 
-/* cal modal */
 
+/* cal modal */
 #cal {
     font-family: 'Slabo 27px', serif;
     font-size: 120%;
 }
 
 .modal-dialog {
-    max-width: 900px !important;
-    min-height: 80%;
+    height: 200px !important;
     color: black;
 }
-
 /* end cal modal */

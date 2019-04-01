@@ -1,4 +1,3 @@
-
 // ! Initialize Firebase
 var config = {
     apiKey: 'AIzaSyCqb0IslXJ9cwRQJpdvlL49Nb5LRsOO6TM',
@@ -12,20 +11,21 @@ firebase.initializeApp(config);
 let database = firebase.database(),
     activeBC = '';
 
+$('#entireContentWrap').toggle();
+
 // * Grab Book club name
 $('#nameGo').on('click', function (e) {
     e.preventDefault();
-    let bcName = $('#nameInput')
-        .val()
-        .trim();
-    $('#nameInput').val('');
-    $('.club-logo').text(bcName);
+    let bcName = $('#nameInput').val().trim();
     let newBCKey = database.ref('/bookclubs').push({
         name: bcName
     }).key;
     activeBC = database.ref(`/bookclubs/${newBCKey}`);
-    $('#videobg').toggle(400);
-    $('.bc-area').toggle(400);
+
+    $('#nameInput').val('');
+    $('.club-logo').text(bcName);
+    $('#videobg').toggle(700);
+    $('.bc-area').toggle(700);
 });
 
 // ? add club name to firebase
@@ -33,13 +33,10 @@ database.ref('/bookclubs').on('child_added', function (snap) {
     let data = snap.val();
     let key = snap.key;
     let name = data.name;
-    let newAnchor = $('<a>')
-        .addClass('dropdown-item')
-        .text(name)
-        .attr({
-            'data-key': key,
-            src: '#'
-        });
+    let newAnchor = $('<a>').addClass('dropdown-item').text(name).attr({
+        'data-key': key,
+        src: '#'
+    });
     $('.dropdown-menu').append(newAnchor);
 });
 
@@ -50,9 +47,9 @@ $(document).on('click', '.dropdown-item', function () {
     let key = $(this).attr('data-key');
     $('.club-logo').prepend(`${name}`);
 
-    $('#videobg').toggle(400);
-    $('#mainContent').toggle(400);
-
+    $('#videobg').toggle(700);
+    $('#mainContent').toggle(700);
+    $('#entireContentWrap').toggle(700);
     $("#bc-name").text(name);
     activeBC = database.ref(`/bookclubs/${key}`);
     activeBC.on("value", function (snap) {
@@ -73,7 +70,6 @@ $(document).on('click', '.dropdown-item', function () {
 $('#showCalendar').on('click', function () {
     $('#calendar').html('');
     var calendarEl = document.getElementById('calendar');
-
     var recalledEvents = [];
 
     activeBC.on('value', function (snap) {
@@ -98,7 +94,7 @@ $('#showCalendar').on('click', function () {
     setTimeout(function () {
         console.log(`I'm in the Timeout!`);
         calendar.changeView('dayGridMonth');
-    }, 500);
+    }, 600);
 });
 
 $(document).on("click", '#pushMeeting', function () {
@@ -123,6 +119,13 @@ $(document).on("click", '#pushMeeting', function () {
     activeBC.update({
         events: events
     });
+});
+
+var calendarWeek = new FullCalendar.Calendar(calendarEl, {
+    plugins: ['dayGrid'],
+    defaultView: 'dayGridWeek'
+    .appendappend('#calTable');
+ 
 });
 
 /* 
@@ -196,7 +199,7 @@ $('.search').on('click', function (event) {
         (cover = `http://covers.openlibrary.org/b/isbn/${
                   book.isbn[0]
               }-L.jpg`) :
-        (cover = `https://islandpress.org/sites/default/files/400px%20x%20600px-r01BookNotPictured.jpg`);
+        (cover = `https://islandpress.org/sites/default/files/400px%20x%20700px-r01BookNotPictured.jpg`);
         !(typeof book.title == 'undefined') ?
         (title = book.title) :
         (title = 'Not Found');
