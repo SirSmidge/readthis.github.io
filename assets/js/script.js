@@ -39,6 +39,7 @@ const calendarFunc = () => {
         },
         events: recalledEvents
     });
+
     calendar.render();
     setTimeout(function () {
         calendar.changeView('listMonth');
@@ -73,7 +74,7 @@ $(document).on("click", '#pushMeeting', function () {
 });
 
 database.ref('/bookclubs').on('child_added', function (snap) {
-    let data = snap.val();
+    let data = JSON.parse(JSON.stringify(snap.val()));
     let key = snap.key;
     let name = data.name;
     let newAnchor = $('<a>')
@@ -106,17 +107,24 @@ $('#nameGo').on('click', function (e) {
 
     // ! update bookclub info on page
     $('#bcName').text(`Welcome, ${name}`);
+
     activeBC.on("value", function (snap) {
         let data = snap.val();
 
         let book = {};
         if (!(typeof data.book === 'undefined')) {
             book = data.book;
+            $("#bookArea .row").show();
+            $("#bookArea").removeClass("p-3");
+            if ($("#noBook").length > 0) $("#noBook").remove()
+            $("#bookArea h3").text("Currently Reading:")
             $("#bcBookCover").attr("src", `${book.cover}`)
-            $("#bcBookTitle").text(`Book: ${book.title}`);
+            $("#bcBookTitle").text(`${book.title}`);
             $("#bcBookAuthor").text(`by ${book.author}`)
         } else {
-            $("#bcBook").text(`You haven t chosen a book yet! Search for one below.`);
+            $("#bookArea").addClass("p-3")
+            $("#bookArea .row").hide();
+            $("#bookArea").append(`<h2 id="noBook">You haven't chosen a book yet! Search for one below.</h2>`);
         }
 
     });
@@ -140,11 +148,17 @@ $(document).on('click', '.dropdown-item', function () {
         let book = {};
         if (!(typeof data.book === 'undefined')) {
             book = data.book;
+            $("#bookArea .row").show();
+            $("#bookArea").removeClass("p-3");
+            if ($("#noBook").length > 0) $("#noBook").remove()
+            $("#bookArea h3").text("Currently Reading:")
             $("#bcBookCover").attr("src", `${book.cover}`)
             $("#bcBookTitle").text(`${book.title}`);
             $("#bcBookAuthor").text(`by ${book.author}`)
         } else {
-            $("#bookArea").html(`You haven't chosen a book yet! Search for one below.`);
+            $("#bookArea").addClass("p-3")
+            $("#bookArea .row").hide();
+            $("#bookArea").append(`<h2 id="noBook">You haven't chosen a book yet! Search for one below.</h2>`);
         }
 
     });
