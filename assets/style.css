@@ -1,10 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:300|Playfair+Display:900i');
 
+/* ===== GLOBAL ===== */
+
 html {
     height: 100%;
     position: relative;
     top: -8px;
 }
+
+/* --- Helper classes --- */
 
 .lato {
     font-family: 'Lato',
@@ -28,10 +32,7 @@ html {
     color: black !important;
 }
 
-.card {
-    margin: 2em 0;
-}
-
+/* --- Video Backgroudn Styles --- */
 
 #videoBg .container,
 #videoBg .row {
@@ -64,12 +65,24 @@ html {
 
 #nameGo {
     border: none;
+    color: #fff;
 }
+
+/* --- Navbar Styles --- */
 
 .navbar {
     box-shadow: none;
     margin-top: .55rem !important;
+    max-width: 100%;
+    padding: 5px;
+    height: 60px;
 }
+
+.navbar-brand {
+    padding: 5px;
+}
+
+/* --- Main content styles --- */
 
 #mainContent {
     max-width: 960px;
@@ -79,6 +92,12 @@ html {
 
 #calendarWrapper {
     min-height: 80vh;
+}
+
+/* Card Styles */
+.card {
+    margin: 2em 0;
+    padding: .5em;
 }
 
 /* Book Cover Styles */
@@ -102,97 +121,9 @@ img.card-image:hover {
     cursor: pointer;
 }
 
-
-
-
-.navbar {
-    max-width: 100%;
-    padding: 5px;
-    margin: auto;
-    height: 60px;
-}
-
-.navbar-brand {
-    padding: 5px;
-}
-
-
-.enterBookClub {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.searchResult {
-    padding-top: 10px;
-
-}
-
-.mainBookImage {
-    max-height: 20%;
-    width: auto;
-    padding: 7px;
-    margin: auto;
-}
-
-.bTitle {
-    padding: 5px;
-    margin: auto;
-}
-
-.syn {
-    padding: 5px;
-    margin: auto;
-}
-
-.topTens {
-    background-color: rgb(250, 244, 235);
-    border: 3px solid grey;
-    border-radius: 5px;
-}
-
-.bcName {
-    max-width: 75%;
-}
-
-#nameGo {
-    color: #fff;
-}
-
-.bc-area {
-    display: none;
-}
+/* Modal styles */
 
 .modal-dialog {
     width: 100%;
     height: 80%;
 }
-
-/* End Main Content/Index */
-
-
-/* Footer */
-
-.footer {
-    /* position: absolute; */
-    bottom: 0;
-    width: 100%;
-    /* Set the fixed height of the footer here */
-    height: 60px;
-    background-color: #fdfafa;
-    border-top: 3px solid #07ebdf;
-}
-
-.footLink {
-    color: black;
-    display: inline;
-}
-
-#bottom {
-    height: 15px;
-    max-width: 100%;
-    padding: 5px;
-    margin: auto;
-}
-
-/* End Footer */
