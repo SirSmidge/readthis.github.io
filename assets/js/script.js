@@ -12,6 +12,28 @@ firebase.initializeApp(config);
 let database = firebase.database(),
     activeBC = '';
 
+<<<<<<< HEAD
+$('#entireContentWrap').toggle();
+
+// * Grab Book club name
+$('#nameGo').on('click', function (e) {
+    e.preventDefault();
+    let bcName = $('#nameInput').val().trim();
+    let newBCKey = database.ref('/bookclubs').push({
+        name: bcName
+    }).key;
+    activeBC = database.ref(`/bookclubs/${newBCKey}`);
+
+    $('#nameInput').val('');
+    $('.club-logo').text(bcName);
+    $('#videobg').toggle(700);
+    $('.bc-area').toggle(700);
+});
+
+// ? add club name to firebase
+database.ref('/bookclubs').on('child_added', function (snap) {
+    let data = snap.val();
+=======
 // ! Full Calendar
 
 const calendarFunc = () => {
@@ -75,18 +97,106 @@ $(document).on("click", '#pushMeeting', function () {
 
 database.ref('/bookclubs').on('child_added', function (snap) {
     let data = JSON.parse(JSON.stringify(snap.val()));
+>>>>>>> daniel
     let key = snap.key;
     let name = data.name;
-    let newAnchor = $('<a>')
-        .addClass('dropdown-item')
-        .text(name)
-        .attr({
-            'data-key': key,
-            src: '#'
-        });
+    let newAnchor = $('<a>').addClass('dropdown-item').text(name).attr({
+        'data-key': key,
+        src: '#'
+    });
     $('.dropdown-menu').append(newAnchor);
 });
 
+<<<<<<< HEAD
+// ? drop down menu for bookclubs
+$(document).on('click', '.dropdown-item', function () {
+    console.log('dropdown item clicked');
+    let name = $(this).text();
+    let key = $(this).attr('data-key');
+    $('.club-logo').prepend(`${name}`);
+
+    $('#videobg').toggle(700);
+    $('#mainContent').toggle(700);
+    $('#entireContentWrap').toggle(700);
+    $("#bc-name").text(name);
+    activeBC = database.ref(`/bookclubs/${key}`);
+    activeBC.on("value", function (snap) {
+        let data = snap.val();
+
+        let book = {};
+        if (!(typeof data.book === 'undefined')) {
+            book = data.book;
+            $("#bc-book").text(`Book: ${book.title} by ${book.author}`);
+        } else {
+            $("#bc-book").text(`You haven't chosen a book yet!`);
+        }
+    });
+});
+
+
+// ! Full Calendar
+$('#showCalendar').on('click', function () {
+    $('#calendar').html('');
+    var calendarEl = document.getElementById('calendar');
+    var recalledEvents = [];
+
+    activeBC.on('value', function (snap) {
+        let data = snap.val();
+        !(typeof data.events == 'undefined') ?
+        (recalledEvents = data.events) :
+        (recalledEvents = []);
+        console.log(recalledEvents);
+    });
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: ['interaction', 'dayGrid'],
+        defaultView: 'dayGridMonth',
+        header: {
+            left: 'title',
+            center: 'addEventButton',
+            right: 'dayGridMonth'
+        },
+        events: recalledEvents
+    });
+    calendar.render();
+    setTimeout(function () {
+        console.log(`I'm in the Timeout!`);
+        calendar.changeView('dayGridMonth');
+    }, 600);
+});
+
+$(document).on("click", '#pushMeeting', function () {
+    let events = [];
+    activeBC.on("value", function (snap) {
+        let data = snap.val();
+        !(typeof data.events === "undefined") ?
+        events = data.events: events = []
+    });
+    let date = $("#eventDate").val();
+    let time = $("#eventTime").val();
+    let event = new Date(date + `T${time}:00`);
+    let eventObj = {
+        title: `Book Club Meeting!`,
+        start: event,
+        allDay: false
+    }
+    events.push(eventObj);
+
+
+    // push event to firebase
+    activeBC.update({
+        events: events
+    });
+});
+
+var calendarWeek = new FullCalendar.Calendar(calendarEl, {
+    plugins: ['dayGrid'],
+    defaultView: 'dayGridWeek'
+    .appendappend('#calTable');
+ 
+});
+
+=======
 // * Grab Book club name
 $('#nameGo').on('click', function (e) {
     e.preventDefault();
@@ -167,6 +277,7 @@ $(document).on('click', '.dropdown-item', function () {
     calendarFunc();
 });
 
+>>>>>>> daniel
 /* 
 
 Add Meeting function notes:
@@ -218,6 +329,16 @@ $.ajax({
 });
 */
 
+<<<<<<< HEAD
+$('.search').on('click', function (event) {
+    event.preventDefault();
+    searchTitle = $('#searchBar')
+        .val()
+        .trim();
+    $('#searchBar').val('');
+    olSearch = `http://openlibrary.org/search.json?q=${searchTitle}`;
+=======
+>>>>>>> daniel
 
 $('#searchGo').on('click', function () {
     let keyword = $("#bookSearch").val();
@@ -225,6 +346,39 @@ $('#searchGo').on('click', function () {
     $.ajax({
         url: olQuery,
         method: 'GET'
+<<<<<<< HEAD
+    }).then(function (data) {
+        olData = JSON.parse(data);
+        book = olData.docs[0];
+
+        // create book object and push to firebase
+        !(typeof book.isbn == 'undefined') ?
+        (cover = `http://covers.openlibrary.org/b/isbn/${
+                  book.isbn[0]
+              }-L.jpg`) :
+        (cover = `https://islandpress.org/sites/default/files/400px%20x%20700px-r01BookNotPictured.jpg`);
+        !(typeof book.title == 'undefined') ?
+        (title = book.title) :
+        (title = 'Not Found');
+        !(typeof book.author_name == 'undefined') ?
+        (author = book.author_name[0]) :
+        (author = 'Not Found');
+        !(typeof book.first_sentence == 'undefined') ?
+        (first_sentence = book.first_sentence) :
+        (first_sentence = '');
+        !(typeof book.title == 'undefined') ?
+        (title = book.title) :
+        (title = 'Not Found');
+
+        let bookObj = {
+            title: title,
+            author: author,
+            cover: cover,
+            first_sentence: first_sentence
+        };
+        activeBC.update({
+            book: bookObj
+=======
     }).done(function (data) {
         olData = JSON.parse(data);
         $("#results").html('');
@@ -247,9 +401,29 @@ $('#searchGo').on('click', function () {
                 createBSCard(cover, item.title, item.author_name, "#results")
             }
             $('[data-toggle="tooltip"]').tooltip();
+>>>>>>> daniel
         });
     })
 
+<<<<<<< HEAD
+        // show on DOM
+        let coverImg = $('<img>').attr('src', cover);
+
+        $('#bookCover').html(coverImg);
+        $('#bookTitle').text(title);
+        $('#bookAuthor').text(author);
+        $('#firstSentence').text(first_sentence);
+
+    });
+});
+
+// * Create Book Card Function
+function createBSCard(image, title, author) {
+    // main card
+    var card = $("<div>");
+    card.attr("class", "card");
+    card.attr("data-name", title);
+=======
     // // create book object and push to firebase
     // !(typeof book.isbn == 'undefined') ?
     // (cover = `http://covers.openlibrary.org/b/isbn/${
@@ -302,6 +476,7 @@ function createBSCard(image, title, author, area) {
     var cardAnchor = $("<a>");
     cardAnchor.attr("href", "#bcName");
     cardAnchor.addClass("sliding-link");
+>>>>>>> daniel
     // Card Image
     var cardImage = $("<img>")
     cardImage.attr("class", "card-image");
@@ -309,10 +484,16 @@ function createBSCard(image, title, author, area) {
     cardImage.attr("data-title", title);
     cardImage.attr("data-author", author);
     // Building the card
+<<<<<<< HEAD
+    card.append(cardImage);
+    //Append to your div here
+    $("#trending-books").append(card);
+=======
     cardAnchor.append(cardImage);
     card.append(cardAnchor);
     //Append to your div here
     $(area).append(card);
+>>>>>>> daniel
 }
 
 // * NYT BEST SELLERS
@@ -348,16 +529,26 @@ $.ajax({
     console.log(data.results.books[0].buy_links[0].url);
     */
 
+<<<<<<< HEAD
+    // loop that prints top 10
+    for (var i = 0; i < 5; i++) {
+        createBSCard(data.results.books[i].book_image, data.results.books[i].title, data.results.books[0].author)
+=======
     // loop that prints trending books
     for (var i = 0; i < 5; i++) {
         createBSCard(data.results.books[i].book_image, data.results.books[i].title, data.results.books[i].author, "#trendingBooks1")
     }
     for (var i = 5; i < 10; i++) {
         createBSCard(data.results.books[i].book_image, data.results.books[i].title, data.results.books[i].author, "#trendingBooks2")
+>>>>>>> daniel
     }
     $('[data-toggle="tooltip"]').tooltip();
 });
 
+<<<<<<< HEAD
+/*
+ */
+=======
 
 $(document).on("click", ".card-image", function () {
     let author = $(this).attr("data-author"),
@@ -383,3 +574,4 @@ $(document).on("click", ".sliding-link", function (e) {
         scrollTop: $(aid).offset().top
     }, 'slow');
 });
+>>>>>>> daniel

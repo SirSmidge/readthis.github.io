@@ -1,0 +1,197 @@
+/* html and body */
+
+body,
+html {
+    min-width: 100vh;
+    min-height: 100vh;
+}
+
+main{
+    background-color: oldlace;
+}
+/* end html and body */
+
+/* landing page */
+
+#videobg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-underline {
+    width: 100%;
+    height: 1px;
+    background: rgb(156, 4, 243);
+    margin: 8px 0;
+}
+
+#bcName {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 2em;
+    border-radius: 10px;
+    color: blue;
+}
+
+#bcName h3 {
+    text-shadow: 2px 2px 6px black;
+}
+
+#nameInput:focus {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    outline: none;
+}
+
+#nameInput:focus,
+#nameInput::placeholder {
+    color: #fff;
+    text-shadow: 2px 2px 6px black;
+}
+
+#nameInput {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    font-size: 30px;
+}
+
+button#nameGo {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+    line-height: 1.33;
+}
+
+button#bcMenu {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    font-size: 24px;
+}
+
+/* end landing page */
+
+
+/* main content */
+/* nav */
+.navbar-default{
+    width: 100%
+}
+
+.container-fluid{
+    max-width: 960px;
+    margin: auto;
+}
+
+#mainContent {
+    display: none;
+    max-width: 960px;
+    margin: auto;
+}
+
+.container {
+    padding-top: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.club-logo {
+    padding: 0px;
+    font-size: 190%;
+    font-family: 'Handlee', cursive;
+}
+
+#showCalendar{
+    font-size: 170%;
+    font-family: 'Varela Round', sans-serif;
+}
+
+li {
+    list-style: none;
+}
+
+a,
+a:hover {
+
+    text-decoration: none;
+    color: black;
+}
+/* end nav */
+
+/* search col */
+#searchCol {
+    width: 75%;
+    padding: 10px;
+    margin: auto;
+}
+
+#searchBar {
+    display: inline;
+    border-radius: 5px 0px 0px 5px;
+}
+
+#searchIcon {
+    background-color: #fff;
+    border-radius: 0px 5px 5px 0px; 
+    padding: 0;
+    max-width: 24px;
+    max-height: 24px;
+}
+/* End search col */
+
+
+/* Results */
+#resultsRow{
+    background-color: whitesmoke;
+    padding:10px;
+}
+/* End Results */
+
+
+/* Bottom two cols */
+#leftBottom,
+#rightBottom {
+    height: 200px !important;
+    width: 100% !important;
+    margin: auto;
+    padding: 10px;
+}
+
+
+/* right hand col */
+#trending-books .card {
+    border: none;
+    padding: 5px;
+    background: transparent;
+    transition: .5s all ease;
+}
+
+#trending-books .card:hover {
+    transform: scale(1);
+    transition: .5s all ease;
+}
+
+img {
+    max-height: 100px;
+    max-width: auto;
+}
+/* End bottom cols */
+/* end main content */
+
+
+/* cal modal */
+#cal {
+    font-family: 'Slabo 27px', serif;
+    font-size: 120%;
+}
+
+.modal-dialog {
+    height: 200px !important;
+    color: black;
+}
+/* end cal modal */
