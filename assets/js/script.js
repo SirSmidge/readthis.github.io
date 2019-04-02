@@ -37,7 +37,14 @@ const calendarFunc = () => {
             center: 'title',
             right: 'prev,next'
         },
-        events: recalledEvents
+        events: recalledEvents,
+        eventClick: function (info) {
+            info.jsEvent.preventDefault(); // don't let the browser navigate
+
+            if (info.event.url) {
+                window.open(info.event.url);
+            }
+        }
     });
 
     calendar.render();
@@ -55,10 +62,12 @@ $(document).on("click", '#pushMeeting', function () {
     });
     let date = $("#eventDate").val();
     let time = $("#eventTime").val();
+    let addy = $("#address").val().trim();
     let event = new Date(date + `T${time}:00Z`);
     let eventObj = {
         title: `Book Club Meeting!`,
         start: event,
+        url: `https://maps.google.com/?q=${addy}`,
         allDay: false
     }
     events.push(eventObj);
