@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300|Playfair+Display:900i');
+
+html {
+    height: 100%;
+    position: relative;
+    top: -8px;
+}
+
+.lato {
+    font-family: 'Lato',
+        sans-serif;
+    font-weight: 300;
+}
+
+.serif {
+    font-family: 'Playfair Display',
+        serif;
+    font-weight: 900;
+    font-style: italic;
+}
+
+.text-shadow {
+    text-shadow: 2px 2px 4px black;
+}
+
+.pointer:hover {
+    cursor: pointer;
+    color: black !important;
+}
+
+.card {
+    margin: 2em 0;
+}
+
+
+#videoBg .container,
+#videoBg .row {
+    height: 100%;
+}
+
+#videoBg .row {
+    margin-top: .5rem !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#welcomeArea {
+    margin-top: 3em;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    padding: 3em;
+}
+
+#welcomeArea h3 {
+    color: white;
+    text-shadow: 2px 2px 4px black;
+}
+
+#tagline {
+    margin-top: -15px;
+    margin-bottom: 10px;
+}
+
+#nameGo {
+    border: none;
+}
+
+.navbar {
+    box-shadow: none;
+    margin-top: .5rem !important;
+}
+
+#mainContent {
+    max-width: 960px;
+    display: none;
+    margin: 2rem auto;
+}
+
+#calendarWrapper {
+    min-height: 80vh;
+}
+
+/* Book Cover Styles */
+
+#trendingBooks1,
+#trendingBooks2,
+#results {
+    display: flex;
+    justify-content: space-around;
+}
+
+img.card-image {
+    max-width: 100px;
+    transition: all .3s ease;
+}
+
+img.card-image:hover {
+    max-width: 100px;
+    transform: scale(1.1);
+    transition: all .3s ease;
+    cursor: pointer;
+}
+
+
+
+
+.navbar {
+    max-width: 100%;
+    padding: 5px;
+    margin: auto;
+    height: 60px;
+}
+
+.navbar-brand {
+    padding: 5px;
+}
+
+
+.enterBookClub {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchResult {
+    padding-top: 10px;
+
+}
+
+.mainBookImage {
+    max-height: 20%;
+    width: auto;
+    padding: 7px;
+    margin: auto;
+}
+
+.bTitle {
+    padding: 5px;
+    margin: auto;
+}
+
+.syn {
+    padding: 5px;
+    margin: auto;
+}
+
+.topTens {
+    background-color: rgb(250, 244, 235);
+    border: 3px solid grey;
+    border-radius: 5px;
+}
+
+.bcName {
+    max-width: 75%;
+}
+
+#nameGo {
+    color: #fff;
+}
+
+.bc-area {
+    display: none;
+}
+
+.modal-dialog {
+    width: 100%;
+    height: 80%;
+}
+
+/* End Main Content/Index */
+
+
+/* Footer */
+
+.footer {
+    /* position: absolute; */
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #fdfafa;
+    border-top: 3px solid #07ebdf;
+}
+
+.footLink {
+    color: black;
+    display: inline;
+}
+
+#bottom {
+    height: 15px;
+    max-width: 100%;
+    padding: 5px;
+    margin: auto;
+}
+
+/* End Footer */
